@@ -1,12 +1,12 @@
-from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot
+from PyQt5.QtCore import QObject, pyqtSignal, pyqtSlot
 from dbhelper import *
 import time
 
-class CoreThread(QThread):
+class CoreWorker(QObject):
     sig1 = pyqtSignal(list)
 
     def __init__(self):
-        QThread.__init__(self)
+        QObject.__init__(self)
         self.db_helper = DBHelper()
 
     def __del__(self):

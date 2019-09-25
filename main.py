@@ -31,10 +31,14 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
         self.listWidget.clear()
 
         self.show()
-        self.myThread = CoreThread()
+        self.myThread = QThread(self)
         self.myThread.start()
-        self.myThread.sig1.connect(self.fill_records_list)
-        self.sig1.connect(self.myThread.request_list_data)
+
+        self.core_worker = CoreWorker()
+        self.core_worker.moveToThread(self.myThread)
+
+        self.core_worker.sig1.connect(self.fill_records_list)
+        self.sig1.connect(self.core_worker.request_list_data)
         self.sig1.emit("start")
         self.sig1.emit("fetch_list")
 
@@ -43,7 +47,12 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
         self.settings.setValue("windowState", self.saveState())
         QtWidgets.QMainWindow.closeEvent(self, event)
 
+    @pyqtSlot(list)
     def fill_records_list(self, data):
+        if self.listWidget.count() > 0 and self.listWidget.item(self.listWidget.count() - 1).text() == "Loading...":
+            self.listWidget.takeItem(self.listWidget.count() - 1)
+            self.listWidget.setCurrentRow(-1)
+
         self.list_data += data[:-1]
         self.list_continues = data[-1] != None
 
@@ -58,9 +67,11 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
         index = self.listWidget.currentRow()
 
         if item.text() == "More...":
-            self.listWidget.takeItem(index)
-            self.listWidget.setCurrentRow(-1)
+            item.setText("Loading...")
             self.sig1.emit("fetch_list")
+            return
+
+        if item.text() == "Loading...":
             return
 
         for i in range(self.tableWidget_2.rowCount()):
