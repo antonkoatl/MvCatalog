@@ -1,4 +1,4 @@
-from PyQt5.QtCore import QThread, pyqtSignal
+from PyQt5.QtCore import QThread, pyqtSignal, pyqtSlot
 from dbhelper import *
 import time
 
@@ -12,10 +12,17 @@ class CoreThread(QThread):
     def __del__(self):
         self.wait()
 
-    def run(self):
-        self.db_helper.connect()
-        self.db_helper.fill_test_data()
-        list_data = self.db_helper.get_list()
-        self.sig1.emit(list_data)
+    @pyqtSlot(str)
+    def request_list_data(self, command):
+        if command == 'start':
+            self.db_helper.connect()
+            self.db_helper.fill_test_data()
+            return
+
+        if command == 'fetch_list':
+            list_data = self.db_helper.get_list()
+            self.sig1.emit(list_data)
+            return
+
 
 
