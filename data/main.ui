@@ -59,7 +59,7 @@
           <x>0</x>
           <y>0</y>
           <width>536</width>
-          <height>701</height>
+          <height>744</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -69,7 +69,26 @@
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_2">
            <item>
-            <widget class="QGraphicsView" name="graphicsView"/>
+            <widget class="QLabel" name="label">
+             <property name="minimumSize">
+              <size>
+               <width>240</width>
+               <height>426</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>240</width>
+               <height>426</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>TextLabel</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
            </item>
            <item>
             <widget class="QTableWidget" name="tableWidget">

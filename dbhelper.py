@@ -16,7 +16,8 @@ class DBHelper:
                                             director text,
                                             script text,
                                             actors text,
-                                            description text
+                                            description text,
+                                            poster blob
                                         ); """
 
     sql_create_files_table = """CREATE TABLE IF NOT EXISTS files (
@@ -54,6 +55,10 @@ class DBHelper:
 
         try:
             self.conn = sqlite3.connect(db_file)
+            c = self.conn.cursor()
+            c.execute("DROP TABLE IF EXISTS movies")
+            c.execute("DROP TABLE IF EXISTS files")
+            self.conn.commit()
         except sqlite3.Error as e:
             print(e)
             if self.conn:
@@ -75,13 +80,21 @@ class DBHelper:
         try:
             c = self.conn.cursor()
             c.execute("DELETE FROM movies")
-            c.execute("INSERT INTO movies VALUES (NULL, NULL, 'Glow', '2019', 'Russia', 'Genre', '0', '0+', 'Andy Hunter', '', '', 'Some description')")
-            c.execute("INSERT INTO movies VALUES (NULL, 'Аватар', 'Avatar', '2009', 'Великобритания,США', 'Боевик,Драма,Приключения,Фантастика', '162', 'PG-13', 'Andy Hunter', 'Джеймс Кэмерон', 'Джеймс Кэмерон', 'Some description')")
+
+            with open("data/251733.jpg", mode='rb') as f:
+                #image_binary = sqlite3.Binary(f.read())
+                image_binary = f.read()
+
+                c.execute("INSERT INTO movies VALUES (NULL, 'Аватар', 'Avatar', '2009', 'Великобритания,США', 'Боевик,Драма,Приключения,Фантастика', '162', 'PG-13', 'Andy Hunter', 'Джеймс Кэмерон', 'Джеймс Кэмерон', 'Some description', ?)", (image_binary,))
+
+
+            c.execute("INSERT INTO movies VALUES (NULL, NULL, 'Glow', '2019', 'Russia', 'Genre', '0', '0+', 'Andy Hunter', '', '', 'Some description', NULL)")
             c.execute("DELETE FROM files")
-            c.execute("INSERT INTO files VALUES (NULL, '1', 'Glow.avi', '0', '320x240', 'MPEG', '1000', '0', 'English', NULL)")
-            c.execute("INSERT INTO files VALUES (NULL, '1', 'Glow.avi', '0', '320x240', 'MPEG', '1000', '0', 'English', NULL)")
-            c.execute("INSERT INTO files VALUES (NULL, '1', 'Glow.avi', '0', '320x240', 'MPEG', '1000', '0', 'English', NULL)")
-            c.execute("INSERT INTO files VALUES (NULL, '1', 'Glow.avi', '0', '320x240', 'MPEG', '1000', '0', 'English', NULL)")
+            c.execute("INSERT INTO files VALUES (NULL, '1', 'Avatar.avi', '0', '320x240', 'MPEG', '1000', '0', 'English', NULL)")
+            c.execute("INSERT INTO files VALUES (NULL, '2', 'Glow.avi', '0', '320x240', 'MPEG', '1000', '0', 'English', NULL)")
+            c.execute("INSERT INTO files VALUES (NULL, '2', 'Glow.avi', '0', '320x240', 'MPEG', '1000', '0', 'English', NULL)")
+            c.execute("INSERT INTO files VALUES (NULL, '2', 'Glow.avi', '0', '320x240', 'MPEG', '1000', '0', 'English', NULL)")
+            c.execute("INSERT INTO files VALUES (NULL, '2', 'Glow.avi', '0', '320x240', 'MPEG', '1000', '0', 'English', NULL)")
             self.conn.commit()
         except sqlite3.Error as e:
             print(e)
@@ -107,7 +120,7 @@ class DBHelper:
             else:
                 result.append(self.list_last_element)
 
-            result += [self.cursor_list.fetchone() for i in range(2)]
+            result += [self.cursor_list.fetchone() for i in range(10)]
             self.list_last_element = result[-1]
 
             if None in result:

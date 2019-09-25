@@ -1,7 +1,8 @@
 import sys, time
 from PyQt5 import QtWidgets, uic, QtGui, QtCore
-from PyQt5.QtCore import QThread, QObject, pyqtSignal, pyqtSlot, QSettings
+from PyQt5.QtCore import QThread, QObject, pyqtSignal, pyqtSlot, QSettings, Qt
 from PyQt5.QtWidgets import QTableWidgetItem
+from PyQt5.QtGui import QPixmap
 from core import *
 import data.design_main
 
@@ -42,6 +43,7 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
         self.sig1.emit("start")
         self.sig1.emit("fetch_list")
 
+
     def closeEvent(self, event):
         self.settings.setValue("geometry", self.saveGeometry())
         self.settings.setValue("windowState", self.saveState())
@@ -74,6 +76,11 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
         if item.text() == "Loading...":
             return
 
+        pixmap = QPixmap()
+        pixmap.loadFromData(self.list_data[index][22])
+        pixmap = pixmap.scaled(self.label.width(), self.label.height(), Qt.KeepAspectRatio)
+        self.label.setPixmap(pixmap)
+
         for i in range(self.tableWidget_2.rowCount()):
             self.tableWidget_2.item(i, 0).setText(str(self.list_data[index][i+2]))
 
@@ -89,6 +96,8 @@ if __name__ == '__main__':
         sys._excepthook(exctype, value, traceback)
         sys.exit(1)
     sys.excepthook = exception_hook
+
+    QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
 
     app = QtWidgets.QApplication(sys.argv)
     window = MyWindow()
