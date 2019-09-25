@@ -279,11 +279,11 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionTest_Action"/>
+   <addaction name="actionAdd_Action"/>
   </widget>
-  <action name="actionTest_Action">
+  <action name="actionAdd_Action">
    <property name="text">
-    <string>Test Action</string>
+    <string>Добавить</string>
    </property>
   </action>
  </widget>

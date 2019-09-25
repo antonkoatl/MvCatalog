@@ -44,12 +44,6 @@ class DBHelper:
         self.create_table(self.sql_create_movies_table)
         self.create_table(self.sql_create_files_table)
 
-    def get_movies(self):
-        return self.get_movies_data()
-
-    def get_list(self):
-        return self.get_list_data()
-
     def create_connection(self, db_file):
         self.conn = None
 
@@ -109,11 +103,11 @@ class DBHelper:
         except sqlite3.Error as e:
             print(e)
 
-    def get_list_data(self):
+    def get_list_data(self, forced=False):
         try:
             result = []
 
-            if self.cursor_list == None:
+            if self.cursor_list == None or forced:
                 self.cursor_list = self.conn.cursor()
                 sql = "SELECT * FROM files INNER JOIN movies ON files.movie_id = movies.id"
                 self.cursor_list.execute(sql)
@@ -127,5 +121,26 @@ class DBHelper:
                 self.cursor_list = None
 
             return result
+        except sqlite3.Error as e:
+            print(e)
+
+    def add_movie(self, movie):
+        try:
+            c = self.conn.cursor()
+            c.execute("SELECT id FROM movies WHERE orig_name=?", (movie.orig_name,))
+            result = c.fetchone()
+            if (result != None):
+                return result[0]
+
+            c.execute("INSERT INTO movies VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)", movie.get_values_list())
+            c.execute("SELECT last_insert_rowid()")
+            return c.fetchone()[0]
+        except sqlite3.Error as e:
+            print(e)
+
+    def update_file(self, file):
+        try:
+            c = self.conn.cursor()
+            c.execute("INSERT OR REPLACE INTO files VALUES (?,?,?,?,?,?,?,?,?,?)", file.get_values_list())
         except sqlite3.Error as e:
             print(e)

@@ -139,9 +139,9 @@ class Ui_MainWindow(object):
         self.toolBar = QtWidgets.QToolBar(MainWindow)
         self.toolBar.setObjectName("toolBar")
         MainWindow.addToolBar(QtCore.Qt.TopToolBarArea, self.toolBar)
-        self.actionTest_Action = QtWidgets.QAction(MainWindow)
-        self.actionTest_Action.setObjectName("actionTest_Action")
-        self.toolBar.addAction(self.actionTest_Action)
+        self.actionAdd_Action = QtWidgets.QAction(MainWindow)
+        self.actionAdd_Action.setObjectName("actionAdd_Action")
+        self.toolBar.addAction(self.actionAdd_Action)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -202,4 +202,4 @@ class Ui_MainWindow(object):
         item = self.tableWidget_2.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "Test"))
         self.toolBar.setWindowTitle(_translate("MainWindow", "toolBar"))
-        self.actionTest_Action.setText(_translate("MainWindow", "Test Action"))
+        self.actionAdd_Action.setText(_translate("MainWindow", "Добавить"))

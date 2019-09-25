@@ -5,9 +5,12 @@ from PyQt5.QtWidgets import QTableWidgetItem
 from PyQt5.QtGui import QPixmap
 from core import *
 import data.design_main
+from edit_dialog import EditDialog
+
 
 class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
     sig1 = pyqtSignal(str)
+    signal_db_updater = pyqtSignal(list)
     list_data = []
 
     def __init__(self):
@@ -38,10 +41,16 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
         self.core_worker = CoreWorker()
         self.core_worker.moveToThread(self.myThread)
 
-        self.core_worker.sig1.connect(self.fill_records_list)
+        self.core_worker.signal_fill_items_to_list.connect(self.fill_records_list)
+        self.core_worker.signal_add_items_to_list.connect(self.add_records_list)
+        self.signal_db_updater.connect(self.core_worker.update_db)
         self.sig1.connect(self.core_worker.request_list_data)
         self.sig1.emit("start")
-        self.sig1.emit("fetch_list")
+        self.sig1.emit("start_list")
+
+        self.edit_dialog = EditDialog(self)
+
+        self.actionAdd_Action.triggered.connect(self.add_item)
 
 
     def closeEvent(self, event):
@@ -51,6 +60,20 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
 
     @pyqtSlot(list)
     def fill_records_list(self, data):
+        self.listWidget.clear()
+
+        self.list_data = data[:-1]
+        self.list_continues = data[-1] != None
+
+        for item in data[:-1]:
+            if item == None: break
+            self.listWidget.addItem(item[12])
+
+        if (self.list_continues):
+            self.listWidget.addItem("More...")
+
+    @pyqtSlot(list)
+    def add_records_list(self, data):
         if self.listWidget.count() > 0 and self.listWidget.item(self.listWidget.count() - 1).text() == "Loading...":
             self.listWidget.takeItem(self.listWidget.count() - 1)
             self.listWidget.setCurrentRow(-1)
@@ -70,7 +93,7 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
 
         if item.text() == "More...":
             item.setText("Loading...")
-            self.sig1.emit("fetch_list")
+            self.sig1.emit("add_list")
             return
 
         if item.text() == "Loading...":
@@ -87,6 +110,11 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
         for i in range(self.tableWidget.rowCount()):
             j = i + self.tableWidget_2.rowCount()
             self.tableWidget.item(i, 0).setText(str(self.list_data[index][j+3]))
+
+    def add_item(self):
+        self.edit_dialog.prepare()
+        if self.edit_dialog.exec_():
+            self.signal_db_updater.emit([self.edit_dialog.movie, self.edit_dialog.file])
 
 
 if __name__ == '__main__':
