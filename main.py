@@ -13,6 +13,7 @@ from movie import CatMovie
 class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
     sig1 = pyqtSignal(str)
     signal_db_updater = pyqtSignal(list)
+    signal_db_remover = pyqtSignal(CatFile)
     list_data = []
     current_item_index = -1
 
@@ -47,6 +48,7 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
         self.core_worker.signal_fill_items_to_list.connect(self.fill_records_list)
         self.core_worker.signal_add_items_to_list.connect(self.add_records_list)
         self.signal_db_updater.connect(self.core_worker.update_db)
+        self.signal_db_remover.connect(self.core_worker.removefrom_db)
         self.sig1.connect(self.core_worker.request_list_data)
         self.sig1.emit("start")
         self.sig1.emit("start_list")
@@ -58,6 +60,9 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
         self.actionAdd_Action.triggered.connect(self.add_item)
 
         self.pushButton.clicked.connect(self.edit_item)
+        self.pushButton_2.clicked.connect(self.delete_item)
+
+        self.scrollArea.hide()
 
 
     def closeEvent(self, event):
@@ -102,6 +107,10 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
             self.listWidget.addItem("More...")
 
     def list_item_clicked(self, item):
+        if item is None:
+            self.scrollArea.hide()
+            return
+        else: self.scrollArea.show()
         index = self.listWidget.currentRow()
 
         if item.text() == "More...":
@@ -119,7 +128,7 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
 
 
         movie.fill_widget(self)
-        file.fill_table(self.tableWidget_2)
+        file.fill_widget(self)
 
     def add_item(self):
         self.edit_dialog.prepare()
@@ -127,12 +136,18 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
             self.signal_db_updater.emit([self.edit_dialog.movie, self.edit_dialog.file])
 
     def edit_item(self):
+        if self.current_item_index == -1: return
         self.edit_dialog.prepare(self.list_data[self.current_item_index])
         if self.edit_dialog.exec_():
             self.signal_db_updater.emit([self.edit_dialog.movie, self.edit_dialog.file])
 
     def delete_item(self):
-        pass
+        if self.current_item_index == -1: return
+        self.signal_db_remover.emit(self.list_data.pop(self.current_item_index)[1])
+        self.listWidget.takeItem(self.current_item_index)
+        self.listWidget.setCurrentRow(-1)
+        self.current_item_index = -1
+        self.list_item_clicked(None)
 
 
 if __name__ == '__main__':

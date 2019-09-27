@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QTableWidget
+import data.design_main
 
 class CatFile:
     id = None
@@ -27,14 +27,14 @@ class CatFile:
     def get_values_list(self):
         return [self.id, self.movie_id, self.name, self.size, self.resolution, self.codec, self.bitrate, self.length, self.audio, self.subtitles]
 
-    def fill_table(self, tableWidget: QTableWidget):
-        tableWidget.item(0, 0).setText(self.name)
-        tableWidget.item(1, 0).setText(self.size)
-        tableWidget.item(2, 0).setText(self.resolution)
-        tableWidget.item(3, 0).setText(self.codec)
-        tableWidget.item(4, 0).setText(str(self.bitrate))
-        tableWidget.item(5, 0).setText(str(self.length))
-        tableWidget.item(6, 0).setText(self.audio)
-        tableWidget.item(7, 0).setText(self.subtitles)
+    def fill_widget(self, form: data.design_main.Ui_MainWindow):
+        form.tableWidget.item(0, 0).setText(self.name)
+        form.tableWidget.item(1, 0).setText(self.size)
+        form.tableWidget.item(2, 0).setText(self.resolution)
+        form.tableWidget.item(3, 0).setText(self.codec)
+        form.tableWidget.item(4, 0).setText(str(self.bitrate))
+        form.tableWidget.item(5, 0).setText(str(self.length))
+        form.tableWidget.item(6, 0).setText(self.audio)
+        form.tableWidget.item(7, 0).setText(self.subtitles)
 
 

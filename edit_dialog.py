@@ -15,9 +15,9 @@ class EditDialog(QDialog, data.design_dialog_edit.Ui_Dialog):
     def __init__(self, parent=None):
         super(EditDialog, self).__init__(parent)
         self.setupUi(self)
-        self.pushButton.clicked.connect(self.on_click)
+        self.pushButton.clicked.connect(self.on_click_save)
 
-    def on_click(self):
+    def on_click_save(self):
         self.movie.name = self.lineEdit.text()
         self.movie.orig_name = self.lineEdit_2.text()
         self.movie.year = int(self.lineEdit_3.text())

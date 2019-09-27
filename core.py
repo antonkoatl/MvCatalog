@@ -55,3 +55,7 @@ class CoreWorker(QObject):
 
         self.request_list_data('start_list')
         self.signal_update_result.emit(None)
+
+    @pyqtSlot(CatFile)
+    def removefrom_db(self, file):
+        self.db_helper.remove_file(file)

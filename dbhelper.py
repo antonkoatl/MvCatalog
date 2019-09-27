@@ -3,6 +3,7 @@ import itertools
 
 from PyQt5.QtCore import pyqtSignal
 
+from file import CatFile
 from movie import CatMovie
 
 
@@ -159,7 +160,7 @@ class DBHelper:
             c = self.conn.cursor()
             c.execute("INSERT INTO movies VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)", movie.get_values_list())
             c.execute("SELECT last_insert_rowid()")
-            c.commit()
+            self.conn.commit()
             return c.fetchone()[0], None
         except sqlite3.IntegrityError as e:
             return -1, str(e)
@@ -170,7 +171,15 @@ class DBHelper:
         try:
             c = self.conn.cursor()
             c.execute("INSERT OR REPLACE INTO files VALUES (?,?,?,?,?,?,?,?,?,?)", file.get_values_list())
-            c.commit()
+            self.conn.commit()
             return None
         except sqlite3.Error as e:
             return str(e)
+
+    def remove_file(self, file: CatFile):
+        try:
+            c = self.conn.cursor()
+            c.execute("DELETE FROM files WHERE id=?", [file.id,])
+            self.conn.commit()
+        except sqlite3.Error as e:
+            print(e)
