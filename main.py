@@ -29,12 +29,6 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
         if not self.settings.value("windowState") == None:
             self.restoreState(self.settings.value("windowState"))
 
-        for i in range(self.tableWidget.rowCount()):
-            self.tableWidget.setItem(i, 0, QTableWidgetItem(""))
-
-        for i in range(self.tableWidget_2.rowCount()):
-            self.tableWidget_2.setItem(i, 0, QTableWidgetItem(""))
-
         self.listWidget.itemClicked.connect(self.list_item_clicked)
         self.listWidget.clear()
 
