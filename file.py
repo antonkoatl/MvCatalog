@@ -12,7 +12,9 @@ class CatFile:
     audio = ""
     subtitles = ""
 
-    def __init__(self, item):
+
+    def __init__(self, item=None):
+        if item is None: return
         self.id = item[0]
         self.movie_id = item[1]
         self.name = item[2]

@@ -18,7 +18,9 @@ class CatMovie:
     description = ""
     poster = None
 
-    def __init__(self, item):
+
+    def __init__(self, item=None):
+        if item is None: return
         self.id = item[10]
         self.name = item[11] if item[11] is not None else item[12]
         self.orig_name = item[12]
