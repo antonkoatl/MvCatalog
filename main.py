@@ -6,12 +6,15 @@ from PyQt5.QtGui import QPixmap
 from core import *
 import data.design_main
 from edit_dialog import EditDialog
+from file import CatFile
+from movie import CatMovie
 
 
 class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
     sig1 = pyqtSignal(str)
     signal_db_updater = pyqtSignal(list)
     list_data = []
+    current_item_index = -1
 
     def __init__(self):
         super(MyWindow, self).__init__()
@@ -49,8 +52,12 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
         self.sig1.emit("start_list")
 
         self.edit_dialog = EditDialog(self)
+        self.edit_dialog.signal_db_updater.connect(self.core_worker.update_db)
+        self.core_worker.signal_update_result.connect(self.edit_dialog.update_db_result)
 
         self.actionAdd_Action.triggered.connect(self.add_item)
+
+        self.pushButton.clicked.connect(self.edit_item)
 
 
     def closeEvent(self, event):
@@ -65,12 +72,18 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
         self.list_data = data[:-1]
         self.list_continues = data[-1] != None
 
-        for item in data[:-1]:
-            if item == None: break
-            self.listWidget.addItem(item[12])
+        movie: CatMovie
+        file: CatFile
+        for movie, file in data[:-1]:
+            self.listWidget.addItem(movie.name)
 
         if (self.list_continues):
             self.listWidget.addItem("More...")
+
+        if self.current_item_index != -1:
+            self.listWidget.setCurrentRow(self.current_item_index)
+            self.list_item_clicked(self.listWidget.item(self.current_item_index))
+
 
     @pyqtSlot(list)
     def add_records_list(self, data):
@@ -99,22 +112,27 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
         if item.text() == "Loading...":
             return
 
-        pixmap = QPixmap()
-        pixmap.loadFromData(self.list_data[index][22])
-        pixmap = pixmap.scaled(self.label.width(), self.label.height(), Qt.KeepAspectRatio)
-        self.label.setPixmap(pixmap)
+        self.current_item_index = index
+        movie: CatMovie = self.list_data[index][0]
+        file: CatMovie = self.list_data[index][1]
 
-        for i in range(self.tableWidget_2.rowCount()):
-            self.tableWidget_2.item(i, 0).setText(str(self.list_data[index][i+2]))
 
-        for i in range(self.tableWidget.rowCount()):
-            j = i + self.tableWidget_2.rowCount()
-            self.tableWidget.item(i, 0).setText(str(self.list_data[index][j+3]))
+
+        movie.fill_widget(self)
+        file.fill_table(self.tableWidget_2)
 
     def add_item(self):
         self.edit_dialog.prepare()
         if self.edit_dialog.exec_():
             self.signal_db_updater.emit([self.edit_dialog.movie, self.edit_dialog.file])
+
+    def edit_item(self):
+        self.edit_dialog.prepare(self.list_data[self.current_item_index])
+        if self.edit_dialog.exec_():
+            self.signal_db_updater.emit([self.edit_dialog.movie, self.edit_dialog.file])
+
+    def delete_item(self):
+        pass
 
 
 if __name__ == '__main__':

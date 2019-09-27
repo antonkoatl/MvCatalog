@@ -1,4 +1,9 @@
 import sqlite3
+import itertools
+
+from PyQt5.QtCore import pyqtSignal
+
+from movie import CatMovie
 
 
 class DBHelper:
@@ -50,9 +55,6 @@ class DBHelper:
         try:
             self.conn = sqlite3.connect(db_file)
             c = self.conn.cursor()
-            c.execute("DROP TABLE IF EXISTS movies")
-            c.execute("DROP TABLE IF EXISTS files")
-            self.conn.commit()
         except sqlite3.Error as e:
             print(e)
             if self.conn:
@@ -74,6 +76,7 @@ class DBHelper:
         try:
             c = self.conn.cursor()
             c.execute("DELETE FROM movies")
+            c.execute("DELETE FROM files")
 
             with open("data/251733.jpg", mode='rb') as f:
                 #image_binary = sqlite3.Binary(f.read())
@@ -107,14 +110,15 @@ class DBHelper:
         try:
             result = []
 
-            if self.cursor_list == None or forced:
+            if self.cursor_list is None or forced:
                 self.cursor_list = self.conn.cursor()
                 sql = "SELECT * FROM files INNER JOIN movies ON files.movie_id = movies.id"
                 self.cursor_list.execute(sql)
             else:
                 result.append(self.list_last_element)
 
-            result += [self.cursor_list.fetchone() for i in range(10)]
+            result += [x for x in [self.cursor_list.fetchone() for i in range(10)] if x is not None]
+            if len(result) < 10: result.append(None)
             self.list_last_element = result[-1]
 
             if None in result:
@@ -124,17 +128,41 @@ class DBHelper:
         except sqlite3.Error as e:
             print(e)
 
-    def add_movie(self, movie):
+    def update_movie(self, movie: CatMovie):
+        if movie.id is not None:
+            try:
+                c = self.conn.cursor()
+                c.execute("UPDATE movies "
+                          "SET name=?,"
+                          "orig_name=?,"
+                          "year=?,"
+                          "country=?,"
+                          "genre=?,"
+                          "length=?,"
+                          "rating=?,"
+                          "director=?,"
+                          "script=?,"
+                          "actors=?,"
+                          "description=?,"
+                          "poster=? "
+                          "WHERE id=?", movie.get_values_list()[1:] + [movie.id, ])
+
+                self.conn.commit()
+            except sqlite3.IntegrityError as e:
+                return -1, str(e)
+            except sqlite3.Error as e:
+                return -1, str(e)
+
+            return movie.id, None
+
         try:
             c = self.conn.cursor()
-            c.execute("SELECT id FROM movies WHERE orig_name=?", (movie.orig_name,))
-            result = c.fetchone()
-            if (result != None):
-                return result[0]
-
             c.execute("INSERT INTO movies VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)", movie.get_values_list())
             c.execute("SELECT last_insert_rowid()")
-            return c.fetchone()[0]
+            c.commit()
+            return c.fetchone()[0], None
+        except sqlite3.IntegrityError as e:
+            return -1, str(e)
         except sqlite3.Error as e:
             print(e)
 
@@ -142,5 +170,7 @@ class DBHelper:
         try:
             c = self.conn.cursor()
             c.execute("INSERT OR REPLACE INTO files VALUES (?,?,?,?,?,?,?,?,?,?)", file.get_values_list())
+            c.commit()
+            return None
         except sqlite3.Error as e:
-            print(e)
+            return str(e)

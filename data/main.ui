@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>834</width>
+    <width>876</width>
     <height>788</height>
    </rect>
   </property>
@@ -37,222 +37,267 @@
         </property>
        </item>
       </widget>
-      <widget class="QScrollArea" name="scrollArea">
+      <widget class="QWidget" name="verticalWidget" native="true">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
          <horstretch>1</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="verticalScrollBarPolicy">
-        <enum>Qt::ScrollBarAlwaysOn</enum>
-       </property>
-       <property name="sizeAdjustPolicy">
-        <enum>QAbstractScrollArea::AdjustToContents</enum>
-       </property>
-       <property name="widgetResizable">
-        <bool>true</bool>
-       </property>
-       <widget class="QWidget" name="scrollAreaWidgetContents">
-        <property name="geometry">
-         <rect>
-          <x>0</x>
-          <y>0</y>
-          <width>536</width>
-          <height>744</height>
-         </rect>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout_3">
-         <property name="sizeConstraint">
-          <enum>QLayout::SetNoConstraint</enum>
-         </property>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_2">
-           <item>
-            <widget class="QLabel" name="label">
-             <property name="minimumSize">
-              <size>
-               <width>240</width>
-               <height>426</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>240</width>
-               <height>426</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>TextLabel</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QTableWidget" name="tableWidget">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="verticalScrollBarPolicy">
-              <enum>Qt::ScrollBarAsNeeded</enum>
-             </property>
-             <property name="sizeAdjustPolicy">
-              <enum>QAbstractScrollArea::AdjustToContents</enum>
-             </property>
-             <property name="autoScroll">
-              <bool>true</bool>
-             </property>
-             <property name="rowCount">
-              <number>11</number>
-             </property>
-             <property name="columnCount">
-              <number>1</number>
-             </property>
-             <row>
-              <property name="text">
-               <string>Название фильма</string>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>Оригинальное название</string>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>Год</string>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>Страна</string>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>Жанр</string>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>Длительность</string>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>Рейтинг</string>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>Режиссёр</string>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>Сценарий</string>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>Актёры</string>
-              </property>
-             </row>
-             <row>
-              <property name="text">
-               <string>Описание</string>
-              </property>
-             </row>
-             <column>
-              <property name="text">
-               <string>Test</string>
-              </property>
-             </column>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <widget class="Line" name="line">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
+       <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0">
+        <item>
+         <widget class="QScrollArea" name="scrollArea">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>2</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="verticalScrollBarPolicy">
+           <enum>Qt::ScrollBarAlwaysOn</enum>
+          </property>
+          <property name="sizeAdjustPolicy">
+           <enum>QAbstractScrollArea::AdjustToContents</enum>
+          </property>
+          <property name="widgetResizable">
+           <bool>true</bool>
+          </property>
+          <widget class="QWidget" name="scrollAreaWidgetContents">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>576</width>
+             <height>775</height>
+            </rect>
            </property>
+           <layout class="QVBoxLayout" name="verticalLayout_3">
+            <property name="sizeConstraint">
+             <enum>QLayout::SetNoConstraint</enum>
+            </property>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_4">
+              <item>
+               <spacer name="horizontalSpacer">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButton">
+                <property name="text">
+                 <string>Редактировать</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButton_2">
+                <property name="text">
+                 <string>Удалить</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_2">
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="minimumSize">
+                 <size>
+                  <width>240</width>
+                  <height>426</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>240</width>
+                  <height>426</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>TextLabel</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_4">
+                <item>
+                 <widget class="QTableWidget" name="tableWidget">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="verticalScrollBarPolicy">
+                   <enum>Qt::ScrollBarAsNeeded</enum>
+                  </property>
+                  <property name="sizeAdjustPolicy">
+                   <enum>QAbstractScrollArea::AdjustToContents</enum>
+                  </property>
+                  <property name="autoScroll">
+                   <bool>true</bool>
+                  </property>
+                  <property name="rowCount">
+                   <number>10</number>
+                  </property>
+                  <property name="columnCount">
+                   <number>1</number>
+                  </property>
+                  <row>
+                   <property name="text">
+                    <string>Название фильма</string>
+                   </property>
+                  </row>
+                  <row>
+                   <property name="text">
+                    <string>Оригинальное название</string>
+                   </property>
+                  </row>
+                  <row>
+                   <property name="text">
+                    <string>Год</string>
+                   </property>
+                  </row>
+                  <row>
+                   <property name="text">
+                    <string>Страна</string>
+                   </property>
+                  </row>
+                  <row>
+                   <property name="text">
+                    <string>Жанр</string>
+                   </property>
+                  </row>
+                  <row>
+                   <property name="text">
+                    <string>Длительность</string>
+                   </property>
+                  </row>
+                  <row>
+                   <property name="text">
+                    <string>Рейтинг</string>
+                   </property>
+                  </row>
+                  <row>
+                   <property name="text">
+                    <string>Режиссёр</string>
+                   </property>
+                  </row>
+                  <row>
+                   <property name="text">
+                    <string>Сценарий</string>
+                   </property>
+                  </row>
+                  <row>
+                   <property name="text">
+                    <string>Актёры</string>
+                   </property>
+                  </row>
+                  <column>
+                   <property name="text">
+                    <string>Test</string>
+                   </property>
+                  </column>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPlainTextEdit" name="plainTextEdit"/>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="Line" name="line">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QTableWidget" name="tableWidget_2">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="sizeAdjustPolicy">
+               <enum>QAbstractScrollArea::AdjustToContents</enum>
+              </property>
+              <property name="columnCount">
+               <number>1</number>
+              </property>
+              <row>
+               <property name="text">
+                <string>Имя файла</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>Размер</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>Разрешение</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>Видео кодек</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>Битрейт</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>Продолжительность</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>Аудио</string>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>Субтитры</string>
+               </property>
+              </row>
+              <column>
+               <property name="text">
+                <string>Test</string>
+               </property>
+              </column>
+             </widget>
+            </item>
+           </layout>
           </widget>
-         </item>
-         <item>
-          <widget class="QTableWidget" name="tableWidget_2">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="sizeAdjustPolicy">
-            <enum>QAbstractScrollArea::AdjustToContents</enum>
-           </property>
-           <property name="columnCount">
-            <number>1</number>
-           </property>
-           <row>
-            <property name="text">
-             <string>Имя файла</string>
-            </property>
-           </row>
-           <row>
-            <property name="text">
-             <string>Размер</string>
-            </property>
-           </row>
-           <row>
-            <property name="text">
-             <string>Разрешение</string>
-            </property>
-           </row>
-           <row>
-            <property name="text">
-             <string>Видео кодек</string>
-            </property>
-           </row>
-           <row>
-            <property name="text">
-             <string>Битрейт</string>
-            </property>
-           </row>
-           <row>
-            <property name="text">
-             <string>Продолжительность</string>
-            </property>
-           </row>
-           <row>
-            <property name="text">
-             <string>Аудио</string>
-            </property>
-           </row>
-           <row>
-            <property name="text">
-             <string>Субтитры</string>
-            </property>
-           </row>
-           <column>
-            <property name="text">
-             <string>Test</string>
-            </property>
-           </column>
-          </widget>
-         </item>
-        </layout>
-       </widget>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>
@@ -263,7 +308,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>834</width>
+     <width>876</width>
      <height>22</height>
     </rect>
    </property>

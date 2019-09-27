@@ -1,4 +1,6 @@
-from PyQt5.QtWidgets import QDialog
+from PyQt5.QtCore import Qt, pyqtSignal, pyqtSlot
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtWidgets import QDialog, QMessageBox
 import data.design_dialog_edit
 from file import CatFile
 from movie import CatMovie
@@ -7,6 +9,8 @@ from movie import CatMovie
 class EditDialog(QDialog, data.design_dialog_edit.Ui_Dialog):
     movie: CatMovie
     file: CatFile
+
+    signal_db_updater = pyqtSignal(list)
 
     def __init__(self, parent=None):
         super(EditDialog, self).__init__(parent)
@@ -35,7 +39,7 @@ class EditDialog(QDialog, data.design_dialog_edit.Ui_Dialog):
         self.file.audio = self.lineEdit_17.text()
         self.file.subtitles = self.lineEdit_18.text()
 
-        self.accept()
+        self.signal_db_updater.emit([self.movie, self.file])
 
     def prepare(self, item=None):
         if item is None:
@@ -66,4 +70,14 @@ class EditDialog(QDialog, data.design_dialog_edit.Ui_Dialog):
             self.lineEdit_17.setText(self.file.audio)
             self.lineEdit_18.setText(self.file.subtitles)
 
+            pixmap = QPixmap()
+            pixmap.loadFromData(self.movie.poster)
+            pixmap = pixmap.scaled(self.label_12.width(), self.label_12.height(), Qt.KeepAspectRatio)
+            self.label_12.setPixmap(pixmap)
 
+    @pyqtSlot(str)
+    def update_db_result(self, error):
+        if error != "":
+            QMessageBox.warning(self, "Warning", error)
+        else:
+            self.accept()
