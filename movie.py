@@ -20,20 +20,25 @@ class CatMovie:
 
 
     def __init__(self, item=None):
-        if item is None: return
-        self.id = item[10]
-        self.name = item[11] if item[11] is not None else item[12]
-        self.orig_name = item[12]
-        self.year = int(item[13])
-        self.country = item[14]
-        self.genre = item[15]
-        self.length = int(item[16])
-        self.rating = item[17]
-        self.director = item[18]
-        self.script = item[19]
-        self.actors = item[20]
-        self.description = item[21]
-        self.poster = item[22]
+        if item is None:
+            with open("data/placeholder.png", mode='rb') as f:
+                image_binary = f.read()
+                self.poster = image_binary
+            return
+        st = 11
+        self.id = item[st]
+        self.name = item[st+1] if item[st+1] is not None else item[st+2]
+        self.orig_name = item[st+2]
+        self.year = int(item[st+3])
+        self.country = item[st+4]
+        self.genre = item[st+5]
+        self.length = int(item[st+6])
+        self.rating = item[st+7]
+        self.director = item[st+8]
+        self.script = item[st+9]
+        self.actors = item[st+10]
+        self.description = item[st+11]
+        self.poster = item[st+12]
 
     def get_values_list(self):
         return [self.id, self.name, self.orig_name, self.year, self.country, self.genre, self.length, self.rating, self.director, self.script, self.actors, self.description, self.poster]

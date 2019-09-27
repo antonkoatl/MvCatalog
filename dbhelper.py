@@ -17,7 +17,7 @@ class DBHelper:
                                             year integer,
                                             country text,
                                             genre text,
-                                            length integer,
+                                            length real,
                                             rating text,
                                             director text,
                                             script text,
@@ -37,6 +37,7 @@ class DBHelper:
                                         length integer,
                                         audio text,
                                         subs text,
+                                        frames blob,
                                         FOREIGN KEY (movie_id) REFERENCES movies (id)
                                     );"""
 
@@ -76,8 +77,10 @@ class DBHelper:
     def fill_test_data(self):
         try:
             c = self.conn.cursor()
-            c.execute("DELETE FROM movies")
-            c.execute("DELETE FROM files")
+            c.execute("DROP TABLE IF EXISTS movies")
+            c.execute("DROP TABLE IF EXISTS files")
+            self.create_table(self.sql_create_movies_table)
+            self.create_table(self.sql_create_files_table)
 
             with open("data/251733.jpg", mode='rb') as f:
                 #image_binary = sqlite3.Binary(f.read())
@@ -87,12 +90,11 @@ class DBHelper:
 
 
             c.execute("INSERT INTO movies VALUES (NULL, NULL, 'Glow', '2019', 'Russia', 'Genre', '0', '0+', 'Andy Hunter', '', '', 'Some description', NULL)")
-            c.execute("DELETE FROM files")
-            c.execute("INSERT INTO files VALUES (NULL, '1', 'Avatar.avi', '0', '320x240', 'MPEG', '1000', '0', 'English', NULL)")
-            c.execute("INSERT INTO files VALUES (NULL, '2', 'Glow.avi', '0', '320x240', 'MPEG', '1000', '0', 'English', NULL)")
-            c.execute("INSERT INTO files VALUES (NULL, '2', 'Glow.avi', '0', '320x240', 'MPEG', '1000', '0', 'English', NULL)")
-            c.execute("INSERT INTO files VALUES (NULL, '2', 'Glow.avi', '0', '320x240', 'MPEG', '1000', '0', 'English', NULL)")
-            c.execute("INSERT INTO files VALUES (NULL, '2', 'Glow.avi', '0', '320x240', 'MPEG', '1000', '0', 'English', NULL)")
+            c.execute("INSERT INTO files VALUES (NULL, '1', 'Avatar.avi', '0', '320x240', 'MPEG', '1000', '0', 'English', NULL, NULL)")
+            c.execute("INSERT INTO files VALUES (NULL, '2', 'Glow.avi', '0', '320x240', 'MPEG', '1000', '0', 'English', NULL, NULL)")
+            c.execute("INSERT INTO files VALUES (NULL, '2', 'Glow.avi', '0', '320x240', 'MPEG', '1000', '0', 'English', NULL, NULL)")
+            c.execute("INSERT INTO files VALUES (NULL, '2', 'Glow.avi', '0', '320x240', 'MPEG', '1000', '0', 'English', NULL, NULL)")
+            c.execute("INSERT INTO files VALUES (NULL, '2', 'Glow.avi', '0', '320x240', 'MPEG', '1000', '0', 'English', NULL, NULL)")
             self.conn.commit()
         except sqlite3.Error as e:
             print(e)
@@ -170,7 +172,7 @@ class DBHelper:
     def update_file(self, file):
         try:
             c = self.conn.cursor()
-            c.execute("INSERT OR REPLACE INTO files VALUES (?,?,?,?,?,?,?,?,?,?)", file.get_values_list())
+            c.execute("INSERT OR REPLACE INTO files VALUES (?,?,?,?,?,?,?,?,?,?,?)", file.get_values_list())
             self.conn.commit()
             return None
         except sqlite3.Error as e:

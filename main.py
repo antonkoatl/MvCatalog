@@ -56,6 +56,8 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
         self.pushButton.clicked.connect(self.edit_item)
         self.pushButton_2.clicked.connect(self.delete_item)
 
+        self.horizontalSlider.valueChanged.connect(self.slider_changed)
+
         self.scrollArea.hide()
 
 
@@ -117,7 +119,7 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
 
         self.current_item_index = index
         movie: CatMovie = self.list_data[index][0]
-        file: CatMovie = self.list_data[index][1]
+        file: CatFile = self.list_data[index][1]
 
 
 
@@ -127,7 +129,8 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
     def add_item(self):
         self.edit_dialog.prepare()
         if self.edit_dialog.exec_():
-            self.signal_db_updater.emit([self.edit_dialog.movie, self.edit_dialog.file])
+            #self.signal_db_updater.emit([self.edit_dialog.movie, self.edit_dialog.file])
+            pass
 
     def edit_item(self):
         if self.current_item_index == -1: return
@@ -142,6 +145,10 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
         self.listWidget.setCurrentRow(-1)
         self.current_item_index = -1
         self.list_item_clicked(None)
+
+    def slider_changed(self):
+        file = self.list_data[self.current_item_index][1]
+        file.show_frame(self.label_38, self.horizontalSlider.value())
 
 
 if __name__ == '__main__':
