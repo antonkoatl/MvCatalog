@@ -4,14 +4,14 @@ from file import CatFile
 
 
 class VideoHelper():
-    frames = []
 
     def __init__(self, fname):
         self.fname = fname
+        self.frames = []
         probe = ffmpeg.probe(fname)
         video_stream = next((stream for stream in probe['streams'] if stream['codec_type'] == 'video'), None)
         audio_streams = (stream for stream in probe['streams'] if stream['codec_type'] == 'audio')
-        sub_streams = (stream for stream in probe['streams'] if stream['codec_type'] == 'subtitle') #not tested
+        sub_streams = (stream for stream in probe['streams'] if stream['codec_type'] == 'subtitle')
 
         self.file = CatFile()
         self.file.name = fname.split('/')[-1]
@@ -20,8 +20,8 @@ class VideoHelper():
         self.file.codec = video_stream['codec_name']
         self.file.bitrate = probe['format']['bit_rate']
         self.file.length = float(probe['format']['duration'])
-        self.file.audio = ",".join([x['tags']['language'] for x in audio_streams])
-        self.file.subtitles = ",".join([x['tags']['language'] for x in sub_streams])
+        self.file.audio = ",".join([x['tags']['language'] if 'tags' in x and 'language' in x['tags'] else 'unknown' for x in audio_streams])
+        self.file.subtitles = ",".join([x['tags']['language'] if 'tags' in x and 'language' in x['tags'] else 'unknown' for x in sub_streams])
 
         self.frame_count = math.floor(self.file.length * eval(video_stream['avg_frame_rate']))
 

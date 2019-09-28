@@ -28,7 +28,6 @@ class EditDialog(QDialog, data.design_dialog_edit.Ui_Dialog):
         if event.type() in (QEvent.MouseButtonPress,
                             QEvent.MouseButtonDblClick):
             if event.button() == Qt.LeftButton:
-                print("click")
                 return True
         return super(EditDialog, self).eventFilter(obj, event)
 

@@ -71,7 +71,6 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
         if event.type() in (QEvent.MouseButtonPress,
                             QEvent.MouseButtonDblClick):
             if event.button() == Qt.LeftButton:
-                print("click")
                 return True
         return super(MyWindow, self).eventFilter(obj, event)
 
