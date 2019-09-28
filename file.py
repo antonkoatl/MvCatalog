@@ -2,7 +2,7 @@ import array
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QLabel
-import data.design_main
+import data.design_main, data.design_dialog_edit
 import pickle
 
 class CatFile:
@@ -36,25 +36,56 @@ class CatFile:
     def get_values_list(self):
         return [self.id, self.movie_id, self.name, self.size, self.resolution, self.codec, self.bitrate, self.length, self.audio, self.subtitles, self.get_frames_as_blob()]
 
-    def fill_widget(self, form: data.design_main.Ui_MainWindow):
-        form.label_24.setText(self.name)
-        form.label_25.setText(self.size)
-        form.label_27.setText(self.resolution)
-        form.label_29.setText(self.codec)
-        form.label_31.setText(str(self.bitrate))
-        form.label_33.setText(str(self.length))
-        form.label_35.setText(self.audio)
-        form.label_37.setText(self.subtitles)
+    def fill_widget(self, widget):
+        if isinstance(widget, data.design_main.Ui_MainWindow):
+            widget: data.design_main.Ui_MainWindow
 
-        form.horizontalSlider.setMaximum(max(len(self.frames) - 1, 0))
-        self.show_frame(form.label_38, 0)
+            widget.label_file_name.setText(self.name)
+            widget.label_size.setText(self.size)
+            widget.label_resolution.setText(self.resolution)
+            widget.label_codec.setText(self.codec)
+            widget.label_bitrate.setText(str(self.bitrate))
+            widget.label_file_length.setText(str(self.length))
+            widget.label_audio.setText(self.audio)
+            widget.label_subs.setText(self.subtitles)
+
+            widget.horizontalSlider.setMaximum(max(len(self.frames) - 1, 0))
+            self.show_frame(widget.label_frames, 0)
+
+        if isinstance(widget, data.design_dialog_edit.Ui_Dialog):
+            widget: data.design_dialog_edit.Ui_Dialog
+
+            widget.lineEdit_file_name.setText(self.name)
+            widget.lineEdit_size.setText(self.size)
+            widget.lineEdit_resolution.setText(self.resolution)
+            widget.lineEdit_codec.setText(self.codec)
+            widget.lineEdit_bitrate.setText(str(self.bitrate))
+            widget.lineEdit_file_length.setText(str(self.length))
+            widget.lineEdit_audio.setText(self.audio)
+            widget.lineEdit_subs.setText(self.subtitles)
+
+            widget.horizontalSlider.setMaximum(max(len(self.frames) - 1, 0))
+            self.show_frame(widget.label_frames, 0)
+
+    def load_from_widget(self, widget: data.design_dialog_edit.Ui_Dialog):
+        self.name = widget.lineEdit_file_name.text()
+        self.size = widget.lineEdit_size.text()
+        self.resolution = widget.lineEdit_resolution.text()
+        self.codec = widget.lineEdit_codec.text()
+        self.bitrate = int(widget.lineEdit_bitrate.text())
+        self.length = float(widget.lineEdit_file_length.text())
+        self.audio = widget.lineEdit_audio.text()
+        self.subtitles = widget.lineEdit_subs.text()
 
     def show_frame(self, label: QLabel, index):
-        if index >= len(self.frames) or index == -1: return
-        pixmap = QPixmap()
-        pixmap.loadFromData(self.frames[index])
-        pixmap = pixmap.scaled(label.width(), label.height(), Qt.KeepAspectRatio)
-        label.setPixmap(pixmap)
+        if index >= len(self.frames) or index == -1:
+            pixmap = QPixmap(":/newPrefix/placeholder.png")
+            label.setPixmap(pixmap)
+        else:
+            pixmap = QPixmap()
+            pixmap.loadFromData(self.frames[index])
+            pixmap = pixmap.scaled(label.width(), label.height(), Qt.KeepAspectRatio)
+            label.setPixmap(pixmap)
 
     def get_frames_as_blob(self):
         return pickle.dumps(self.frames)

@@ -1,8 +1,8 @@
 import sys, time
 from PyQt5 import QtWidgets, uic, QtGui, QtCore
-from PyQt5.QtCore import QThread, QObject, pyqtSignal, pyqtSlot, QSettings, Qt
+from PyQt5.QtCore import QThread, QObject, pyqtSignal, pyqtSlot, QSettings, Qt, QEvent
 from PyQt5.QtWidgets import QTableWidgetItem
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QPixmap, QMouseEvent
 from core import *
 import data.design_main
 from edit_dialog import EditDialog
@@ -11,8 +11,8 @@ from movie import CatMovie
 
 
 class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
-    sig1 = pyqtSignal(str)
-    signal_db_updater = pyqtSignal(list)
+    signal_db_request = pyqtSignal(str)
+    signal_db_updater = pyqtSignal(CatMovie, CatFile)
     signal_db_remover = pyqtSignal(CatFile)
     list_data = []
     current_item_index = -1
@@ -43,13 +43,17 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
         self.core_worker.signal_add_items_to_list.connect(self.add_records_list)
         self.signal_db_updater.connect(self.core_worker.update_db)
         self.signal_db_remover.connect(self.core_worker.removefrom_db)
-        self.sig1.connect(self.core_worker.request_list_data)
-        self.sig1.emit("start")
-        self.sig1.emit("start_list")
+        self.signal_db_request.connect(self.core_worker.request_list_data)
+        self.signal_db_request.emit("start")
+        self.signal_db_request.emit("start_list")
 
         self.edit_dialog = EditDialog(self)
         self.edit_dialog.signal_db_updater.connect(self.core_worker.update_db)
-        self.core_worker.signal_update_result.connect(self.edit_dialog.update_db_result)
+        self.edit_dialog.signal_parse_video.connect(self.core_worker.parse_video_file)
+        self.core_worker.signal_update_db_result.connect(self.edit_dialog.update_db_result)
+        self.core_worker.signal_send_file_to_editdialog.connect(self.edit_dialog.receive_file)
+        self.core_worker.signal_send_frames_to_editdialog.connect(self.edit_dialog.receive_frames)
+        self.core_worker.signal_update_progress_bar.connect(self.edit_dialog.progressBar.setValue)
 
         self.actionAdd_Action.triggered.connect(self.add_item)
 
@@ -57,9 +61,24 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
         self.pushButton_2.clicked.connect(self.delete_item)
 
         self.horizontalSlider.valueChanged.connect(self.slider_changed)
+        self.horizontalSlider.setMouseTracking(True)
+        self.horizontalSlider.mouseMoveEvent = self.slider_mouseMoveEvent
+        self.horizontalSlider.installEventFilter(self)
 
         self.scrollArea.hide()
 
+    def eventFilter(self, obj, event):
+        if event.type() in (QEvent.MouseButtonPress,
+                            QEvent.MouseButtonDblClick):
+            if event.button() == Qt.LeftButton:
+                print("click")
+                return True
+        return super(MyWindow, self).eventFilter(obj, event)
+
+    def slider_mouseMoveEvent(self, e: QMouseEvent, *args, **kwargs):
+        if self.horizontalSlider.maximum() > 0:
+            position = round(self.horizontalSlider.maximum() * e.x() / self.horizontalSlider.width())
+            self.horizontalSlider.setValue(position)
 
     def closeEvent(self, event):
         self.settings.setValue("geometry", self.saveGeometry())
@@ -111,7 +130,7 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
 
         if item.text() == "More...":
             item.setText("Loading...")
-            self.sig1.emit("add_list")
+            self.signal_db_request.emit("add_list")
             return
 
         if item.text() == "Loading...":
@@ -134,9 +153,9 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
 
     def edit_item(self):
         if self.current_item_index == -1: return
-        self.edit_dialog.prepare(self.list_data[self.current_item_index])
+        self.edit_dialog.prepare(self.list_data[self.current_item_index][0], self.list_data[self.current_item_index][1])
         if self.edit_dialog.exec_():
-            self.signal_db_updater.emit([self.edit_dialog.movie, self.edit_dialog.file])
+            self.signal_db_updater.emit(self.edit_dialog.movie, self.edit_dialog.file)
 
     def delete_item(self):
         if self.current_item_index == -1: return
@@ -148,7 +167,7 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
 
     def slider_changed(self):
         file = self.list_data[self.current_item_index][1]
-        file.show_frame(self.label_38, self.horizontalSlider.value())
+        file.show_frame(self.label_frames, self.horizontalSlider.value())
 
 
 if __name__ == '__main__':

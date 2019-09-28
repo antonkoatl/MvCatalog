@@ -2,12 +2,16 @@ from PyQt5.QtCore import QObject, pyqtSignal, pyqtSlot
 from dbhelper import *
 from file import CatFile
 from movie import CatMovie
+from video_util import VideoHelper
 
 
 class CoreWorker(QObject):
     signal_add_items_to_list = pyqtSignal(list)
     signal_fill_items_to_list = pyqtSignal(list)
-    signal_update_result = pyqtSignal(str)
+    signal_update_db_result = pyqtSignal(str)
+    signal_send_file_to_editdialog = pyqtSignal(CatFile)
+    signal_send_frames_to_editdialog = pyqtSignal(list)
+    signal_update_progress_bar = pyqtSignal(int)
 
     def __init__(self):
         QObject.__init__(self)
@@ -35,14 +39,12 @@ class CoreWorker(QObject):
             self.signal_add_items_to_list.emit(list_data)
             return
 
-    @pyqtSlot(list)
-    def update_db(self, data):
-        movie = data[0]
-        file = data[1]
+    @pyqtSlot(CatMovie, CatFile)
+    def update_db(self, movie: CatMovie, file: CatFile):
         movie.id, error = self.db_helper.update_movie(movie)
 
         if error is not None:
-            self.signal_update_result.emit(error)
+            self.signal_update_db_result.emit(error)
             return
 
         if file.movie_id == -1:
@@ -50,12 +52,23 @@ class CoreWorker(QObject):
 
         error = self.db_helper.update_file(file)
         if error is not None:
-            self.signal_update_result.emit(error)
+            self.signal_update_db_result.emit(error)
             return
 
         self.request_list_data('start_list')
-        self.signal_update_result.emit(None)
+        self.signal_update_db_result.emit(None)
 
     @pyqtSlot(CatFile)
     def removefrom_db(self, file):
         self.db_helper.remove_file(file)
+
+    @pyqtSlot(str)
+    def parse_video_file(self, fname):
+        video = VideoHelper(fname)
+        self.signal_send_file_to_editdialog.emit(video.file)
+
+        video.get_frames(self.signal_update_progress_bar)
+        self.signal_send_frames_to_editdialog.emit(video.frames)
+
+
+

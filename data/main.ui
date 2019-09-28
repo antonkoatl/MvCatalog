@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>876</width>
-    <height>788</height>
+    <width>912</width>
+    <height>837</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -66,9 +66,9 @@
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>0</y>
-             <width>576</width>
-             <height>699</height>
+             <y>-21</y>
+             <width>596</width>
+             <height>753</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -109,7 +109,7 @@
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_2">
               <item>
-               <widget class="QLabel" name="label">
+               <widget class="QLabel" name="label_poster">
                 <property name="minimumSize">
                  <size>
                   <width>240</width>
@@ -123,7 +123,10 @@
                  </size>
                 </property>
                 <property name="text">
-                 <string>TextLabel</string>
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap resource="resource.qrc">:/newPrefix/placeholder.png</pixmap>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -148,7 +151,7 @@
                    </widget>
                   </item>
                   <item row="7" column="1">
-                   <widget class="QLabel" name="label_17">
+                   <widget class="QLabel" name="label_rating">
                     <property name="styleSheet">
                      <string notr="true">background-color: rgb(255, 252, 252);</string>
                     </property>
@@ -177,7 +180,7 @@
                    </widget>
                   </item>
                   <item row="2" column="1">
-                   <widget class="QLabel" name="label_7">
+                   <widget class="QLabel" name="label_orig_name">
                     <property name="styleSheet">
                      <string notr="true">background-color: rgb(255, 252, 252);</string>
                     </property>
@@ -193,7 +196,7 @@
                    </widget>
                   </item>
                   <item row="4" column="1">
-                   <widget class="QLabel" name="label_11">
+                   <widget class="QLabel" name="label_country">
                     <property name="styleSheet">
                      <string notr="true">background-color: rgb(255, 252, 252);</string>
                     </property>
@@ -209,7 +212,7 @@
                    </widget>
                   </item>
                   <item row="6" column="1">
-                   <widget class="QLabel" name="label_15">
+                   <widget class="QLabel" name="label_movie_length">
                     <property name="styleSheet">
                      <string notr="true">background-color: rgb(255, 252, 252);</string>
                     </property>
@@ -238,7 +241,7 @@
                    </widget>
                   </item>
                   <item row="10" column="1">
-                   <widget class="QLabel" name="label_5">
+                   <widget class="QLabel" name="label_actors">
                     <property name="styleSheet">
                      <string notr="true">background-color: rgb(255, 252, 252);</string>
                     </property>
@@ -254,7 +257,7 @@
                    </widget>
                   </item>
                   <item row="3" column="1">
-                   <widget class="QLabel" name="label_9">
+                   <widget class="QLabel" name="label_year">
                     <property name="styleSheet">
                      <string notr="true">background-color: rgb(255, 252, 252);</string>
                     </property>
@@ -270,7 +273,7 @@
                    </widget>
                   </item>
                   <item row="8" column="1">
-                   <widget class="QLabel" name="label_19">
+                   <widget class="QLabel" name="label_director">
                     <property name="styleSheet">
                      <string notr="true">background-color: rgb(255, 252, 252);</string>
                     </property>
@@ -338,7 +341,7 @@
                    </widget>
                   </item>
                   <item row="1" column="1">
-                   <widget class="QLabel" name="label_3">
+                   <widget class="QLabel" name="label_movie_name">
                     <property name="styleSheet">
                      <string notr="true">background-color: rgb(255, 252, 252);</string>
                     </property>
@@ -380,7 +383,7 @@
                    </widget>
                   </item>
                   <item row="5" column="1">
-                   <widget class="QLabel" name="label_13">
+                   <widget class="QLabel" name="label_genre">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                       <horstretch>0</horstretch>
@@ -421,7 +424,7 @@
                    </widget>
                   </item>
                   <item row="9" column="1">
-                   <widget class="QLabel" name="label_21">
+                   <widget class="QLabel" name="label_script">
                     <property name="styleSheet">
                      <string notr="true">background-color: rgb(255, 252, 252);</string>
                     </property>
@@ -439,7 +442,7 @@
                  </layout>
                 </item>
                 <item>
-                 <widget class="QPlainTextEdit" name="plainTextEdit"/>
+                 <widget class="QPlainTextEdit" name="plainTextEdit_description"/>
                 </item>
                </layout>
               </item>
@@ -470,7 +473,7 @@
               <item row="0" column="2">
                <layout class="QGridLayout" name="gridLayout_3">
                 <item row="3" column="1">
-                 <widget class="QLabel" name="label_29">
+                 <widget class="QLabel" name="label_codec">
                   <property name="styleSheet">
                    <string notr="true">background-color: rgb(255, 252, 252);</string>
                   </property>
@@ -499,7 +502,7 @@
                  </widget>
                 </item>
                 <item row="6" column="1">
-                 <widget class="QLabel" name="label_35">
+                 <widget class="QLabel" name="label_audio">
                   <property name="styleSheet">
                    <string notr="true">background-color: rgb(255, 252, 252);</string>
                   </property>
@@ -515,7 +518,7 @@
                  </widget>
                 </item>
                 <item row="4" column="1">
-                 <widget class="QLabel" name="label_31">
+                 <widget class="QLabel" name="label_bitrate">
                   <property name="styleSheet">
                    <string notr="true">background-color: rgb(255, 252, 252);</string>
                   </property>
@@ -531,7 +534,7 @@
                  </widget>
                 </item>
                 <item row="1" column="1">
-                 <widget class="QLabel" name="label_25">
+                 <widget class="QLabel" name="label_size">
                   <property name="styleSheet">
                    <string notr="true">background-color: rgb(255, 252, 252);</string>
                   </property>
@@ -586,7 +589,7 @@
                  </widget>
                 </item>
                 <item row="2" column="1">
-                 <widget class="QLabel" name="label_27">
+                 <widget class="QLabel" name="label_resolution">
                   <property name="styleSheet">
                    <string notr="true">background-color: rgb(255, 252, 252);</string>
                   </property>
@@ -602,7 +605,7 @@
                  </widget>
                 </item>
                 <item row="5" column="1">
-                 <widget class="QLabel" name="label_33">
+                 <widget class="QLabel" name="label_file_length">
                   <property name="styleSheet">
                    <string notr="true">background-color: rgb(255, 252, 252);</string>
                   </property>
@@ -657,7 +660,7 @@
                  </widget>
                 </item>
                 <item row="0" column="1">
-                 <widget class="QLabel" name="label_24">
+                 <widget class="QLabel" name="label_file_name">
                   <property name="styleSheet">
                    <string notr="true">background-color: rgb(255, 252, 252);</string>
                   </property>
@@ -686,7 +689,7 @@
                  </widget>
                 </item>
                 <item row="7" column="1">
-                 <widget class="QLabel" name="label_37">
+                 <widget class="QLabel" name="label_subs">
                   <property name="styleSheet">
                    <string notr="true">background-color: rgb(255, 252, 252);</string>
                   </property>
@@ -706,14 +709,38 @@
               <item row="0" column="0">
                <layout class="QVBoxLayout" name="verticalLayout_5">
                 <item>
-                 <widget class="QLabel" name="label_38">
+                 <widget class="QLabel" name="label_frames">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>240</width>
+                    <height>240</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>240</width>
+                    <height>240</height>
+                   </size>
+                  </property>
                   <property name="text">
-                   <string>TextLabel</string>
+                   <string/>
+                  </property>
+                  <property name="pixmap">
+                   <pixmap resource="resource.qrc">:/newPrefix/placeholder.png</pixmap>
                   </property>
                  </widget>
                 </item>
                 <item>
                  <widget class="QSlider" name="horizontalSlider">
+                  <property name="maximum">
+                   <number>0</number>
+                  </property>
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
                   </property>
@@ -738,7 +765,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>876</width>
+     <width>912</width>
      <height>22</height>
     </rect>
    </property>
@@ -762,6 +789,8 @@
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

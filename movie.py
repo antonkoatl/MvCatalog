@@ -1,7 +1,7 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QTableWidget, QWidget
-import data.design_main
+import data.design_main, data.design_dialog_edit, resource_rc
 
 class CatMovie:
     id = None
@@ -43,22 +43,62 @@ class CatMovie:
     def get_values_list(self):
         return [self.id, self.name, self.orig_name, self.year, self.country, self.genre, self.length, self.rating, self.director, self.script, self.actors, self.description, self.poster]
 
-    def fill_widget(self, form: data.design_main.Ui_MainWindow):
+    def fill_widget(self, widget):
+        if isinstance(widget, data.design_main.Ui_MainWindow):
+            widget: data.design_main.Ui_MainWindow
 
-        pixmap = QPixmap()
-        pixmap.loadFromData(self.poster)
-        pixmap = pixmap.scaled(form.label.width(), form.label.height(), Qt.KeepAspectRatio)
-        form.label.setPixmap(pixmap)
+            if self.poster is not None:
+                pixmap = QPixmap()
+                pixmap.loadFromData(self.poster)
+                pixmap = pixmap.scaled(widget.label_poster.width(), widget.label_poster.height(), Qt.KeepAspectRatio)
+                widget.label_poster.setPixmap(pixmap)
+            else:
+                pixmap = QPixmap(":/newPrefix/placeholder.png")
+                widget.label_poster.setPixmap(pixmap)
 
-        form.label_3.setText(self.name)
-        form.label_7.setText(self.orig_name)
-        form.label_9.setText(str(self.year))
-        form.label_11.setText(self.country)
-        form.label_13.setText(self.genre.replace(",", ", "))
-        form.label_15.setText(str(self.length))
-        form.label_17.setText(self.rating)
-        form.label_19.setText(self.director)
-        form.label_21.setText(self.script)
-        form.label_5.setText(self.actors)
+            widget.label_movie_name.setText(self.name)
+            widget.label_orig_name.setText(self.orig_name)
+            widget.label_year.setText(str(self.year))
+            widget.label_country.setText(self.country)
+            widget.label_genre.setText(self.genre.replace(",", ", "))
+            widget.label_movie_length.setText(str(self.length))
+            widget.label_rating.setText(self.rating)
+            widget.label_director.setText(self.director)
+            widget.label_script.setText(self.script)
+            widget.label_actors.setText(self.actors)
 
-        form.plainTextEdit.setPlainText(self.description)
+            widget.plainTextEdit_description.setPlainText(self.description)
+
+        if isinstance(widget, data.design_dialog_edit.Ui_Dialog):
+            widget: data.design_dialog_edit.Ui_Dialog
+
+            pixmap = QPixmap()
+            pixmap.loadFromData(self.poster)
+            pixmap = pixmap.scaled(widget.label_poster.width(), widget.label_poster.height(), Qt.KeepAspectRatio)
+            widget.label_poster.setPixmap(pixmap)
+
+            widget.lineEdit_movie_name.setText(self.name)
+            widget.lineEdit_orig_name.setText(self.orig_name)
+            widget.lineEdit_year.setText(str(self.year))
+            widget.lineEdit_country.setText(self.country)
+            widget.lineEdit_genre.setText(self.genre.replace(",", ", "))
+            widget.lineEdit_movie_length.setText(str(self.length))
+            widget.lineEdit_rating.setText(self.rating)
+            widget.lineEdit_director.setText(self.director)
+            widget.lineEdit_script.setText(self.script)
+            widget.lineEdit_actors.setText(self.actors)
+
+            widget.textEdit_description.setPlainText(self.description)
+
+    def load_from_widget(self, widget: data.design_dialog_edit.Ui_Dialog):
+        self.name = widget.lineEdit_movie_name.text()
+        self.orig_name = widget.lineEdit_orig_name.text()
+        self.year = int(widget.lineEdit_year.text())
+        self.country = widget.lineEdit_country.text()
+        self.genre = widget.lineEdit_genre.text()
+        self.length = float(widget.lineEdit_movie_length.text())
+        self.rating = widget.lineEdit_rating.text()
+        self.director = widget.lineEdit_director.text()
+        self.script = widget.lineEdit_script.text()
+        self.actors = widget.lineEdit_actors.text()
+        self.description = widget.textEdit_description.toPlainText()

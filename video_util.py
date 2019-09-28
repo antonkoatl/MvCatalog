@@ -28,13 +28,14 @@ class VideoHelper():
 
 
 
-    def get_frames(self):
+    def get_frames(self, signal):
         N = 20
         for i in range(N):
             #frame = self.get_frame(math.floor(i * self.frame_count / N))
             frame = self.get_frame_time(math.floor(i * self.file.length / N))
             if frame is not None:
                 self.frames.append(frame)
+                signal.emit(i)
             else:
                 return
 

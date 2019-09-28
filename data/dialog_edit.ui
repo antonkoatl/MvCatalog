@@ -35,7 +35,7 @@
    <item row="3" column="0">
     <layout class="QGridLayout" name="gridLayout_7">
      <item row="0" column="2">
-      <widget class="QLineEdit" name="lineEdit_11">
+      <widget class="QLineEdit" name="lineEdit_file_name">
        <property name="text">
         <string>test.file</string>
        </property>
@@ -52,7 +52,7 @@
       </widget>
      </item>
      <item row="2" column="2">
-      <widget class="QLineEdit" name="lineEdit_13">
+      <widget class="QLineEdit" name="lineEdit_resolution">
        <property name="text">
         <string>320x240</string>
        </property>
@@ -62,7 +62,7 @@
       </widget>
      </item>
      <item row="4" column="2">
-      <widget class="QLineEdit" name="lineEdit_15">
+      <widget class="QLineEdit" name="lineEdit_bitrate">
        <property name="text">
         <string>1000</string>
        </property>
@@ -100,7 +100,7 @@
       </widget>
      </item>
      <item row="1" column="2">
-      <widget class="QLineEdit" name="lineEdit_12">
+      <widget class="QLineEdit" name="lineEdit_size">
        <property name="text">
         <string>100</string>
        </property>
@@ -110,7 +110,7 @@
       </widget>
      </item>
      <item row="3" column="2">
-      <widget class="QLineEdit" name="lineEdit_14">
+      <widget class="QLineEdit" name="lineEdit_codec">
        <property name="text">
         <string>mpg</string>
        </property>
@@ -120,7 +120,7 @@
       </widget>
      </item>
      <item row="5" column="2">
-      <widget class="QLineEdit" name="lineEdit_16">
+      <widget class="QLineEdit" name="lineEdit_file_length">
        <property name="text">
         <string>100</string>
        </property>
@@ -144,7 +144,7 @@
       </widget>
      </item>
      <item row="6" column="2">
-      <widget class="QLineEdit" name="lineEdit_17">
+      <widget class="QLineEdit" name="lineEdit_audio">
        <property name="text">
         <string>Русский</string>
        </property>
@@ -161,7 +161,7 @@
       </widget>
      </item>
      <item row="7" column="2">
-      <widget class="QLineEdit" name="lineEdit_18">
+      <widget class="QLineEdit" name="lineEdit_subs">
        <property name="readOnly">
         <bool>true</bool>
        </property>
@@ -207,14 +207,14 @@
       </widget>
      </item>
      <item row="3" column="1">
-      <widget class="QLineEdit" name="lineEdit_4">
+      <widget class="QLineEdit" name="lineEdit_country">
        <property name="text">
         <string>Россия</string>
        </property>
       </widget>
      </item>
      <item row="4" column="1">
-      <widget class="QLineEdit" name="lineEdit_5">
+      <widget class="QLineEdit" name="lineEdit_genre">
        <property name="text">
         <string>Комедия</string>
        </property>
@@ -242,7 +242,7 @@
       </widget>
      </item>
      <item row="7" column="1">
-      <widget class="QLineEdit" name="lineEdit_8">
+      <widget class="QLineEdit" name="lineEdit_director">
        <property name="text">
         <string>test</string>
        </property>
@@ -256,7 +256,7 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QLineEdit" name="lineEdit_2">
+      <widget class="QLineEdit" name="lineEdit_orig_name">
        <property name="text">
         <string>test name</string>
        </property>
@@ -276,28 +276,28 @@
       </widget>
      </item>
      <item row="6" column="1">
-      <widget class="QLineEdit" name="lineEdit_7">
+      <widget class="QLineEdit" name="lineEdit_rating">
        <property name="text">
         <string>test</string>
        </property>
       </widget>
      </item>
      <item row="9" column="1">
-      <widget class="QLineEdit" name="lineEdit_10">
+      <widget class="QLineEdit" name="lineEdit_actors">
        <property name="text">
         <string>test</string>
        </property>
       </widget>
      </item>
      <item row="5" column="1">
-      <widget class="QLineEdit" name="lineEdit_6">
+      <widget class="QLineEdit" name="lineEdit_movie_length">
        <property name="text">
         <string>100</string>
        </property>
       </widget>
      </item>
      <item row="10" column="1">
-      <widget class="QTextEdit" name="textEdit">
+      <widget class="QTextEdit" name="textEdit_description">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
          <horstretch>0</horstretch>
@@ -321,7 +321,7 @@
         <number>6</number>
        </property>
        <item>
-        <widget class="QLineEdit" name="lineEdit">
+        <widget class="QLineEdit" name="lineEdit_movie_name">
          <property name="text">
           <string>test</string>
          </property>
@@ -337,7 +337,7 @@
       </layout>
      </item>
      <item row="2" column="1">
-      <widget class="QLineEdit" name="lineEdit_3">
+      <widget class="QLineEdit" name="lineEdit_year">
        <property name="text">
         <string>2019</string>
        </property>
@@ -358,7 +358,7 @@
       </widget>
      </item>
      <item row="8" column="1">
-      <widget class="QLineEdit" name="lineEdit_9">
+      <widget class="QLineEdit" name="lineEdit_script">
        <property name="text">
         <string>test</string>
        </property>
@@ -374,7 +374,7 @@
     </layout>
    </item>
    <item row="1" column="1">
-    <widget class="QLabel" name="label_12">
+    <widget class="QLabel" name="label_poster">
      <property name="minimumSize">
       <size>
        <width>240</width>
@@ -388,16 +388,22 @@
       </size>
      </property>
      <property name="text">
-      <string>Image</string>
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="resource.qrc">:/newPrefix/placeholder.png</pixmap>
      </property>
     </widget>
    </item>
    <item row="3" column="1">
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QLabel" name="label_23">
+      <widget class="QLabel" name="label_frames">
        <property name="text">
-        <string>TextLabel</string>
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="resource.qrc">:/newPrefix/placeholder.png</pixmap>
        </property>
       </widget>
      </item>
@@ -415,6 +421,9 @@
          <height>16777215</height>
         </size>
        </property>
+       <property name="maximum">
+        <number>0</number>
+       </property>
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
@@ -428,8 +437,23 @@
      </item>
     </layout>
    </item>
+   <item row="2" column="1">
+    <widget class="QProgressBar" name="progressBar">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="value">
+      <number>0</number>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="resource.qrc"/>
+ </resources>
  <connections/>
 </ui>
