@@ -50,7 +50,8 @@ class CatFile:
             widget.label_subs.setText(self.subtitles)
 
             widget.horizontalSlider.setMaximum(max(len(self.frames) - 1, 0))
-            self.show_frame(widget.label_frames, 0)
+            widget.horizontalSlider.setValue(-1)
+            widget.horizontalSlider.setValue(widget.horizontalSlider.maximum() / 2)
 
         if isinstance(widget, data.design_dialog_edit.Ui_Dialog):
             widget: data.design_dialog_edit.Ui_Dialog
@@ -65,7 +66,8 @@ class CatFile:
             widget.lineEdit_subs.setText(self.subtitles)
 
             widget.horizontalSlider.setMaximum(max(len(self.frames) - 1, 0))
-            self.show_frame(widget.label_frames, 0)
+            widget.horizontalSlider.setValue(-1)
+            widget.horizontalSlider.setValue(widget.horizontalSlider.maximum() / 2)
 
     def load_from_widget(self, widget: data.design_dialog_edit.Ui_Dialog):
         self.name = widget.lineEdit_file_name.text()

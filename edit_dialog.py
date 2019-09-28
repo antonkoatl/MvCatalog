@@ -4,7 +4,6 @@ from PyQt5.QtWidgets import QDialog, QMessageBox, QFileDialog
 import data.design_dialog_edit
 from file import CatFile
 from movie import CatMovie
-from video_util import VideoHelper
 
 
 class EditDialog(QDialog, data.design_dialog_edit.Ui_Dialog):

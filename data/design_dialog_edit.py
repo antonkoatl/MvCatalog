@@ -187,6 +187,8 @@ class Ui_Dialog(object):
         self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
         self.label_frames = QtWidgets.QLabel(Dialog)
+        self.label_frames.setMinimumSize(QtCore.QSize(240, 240))
+        self.label_frames.setMaximumSize(QtCore.QSize(240, 320))
         self.label_frames.setText("")
         self.label_frames.setPixmap(QtGui.QPixmap(":/newPrefix/placeholder.png"))
         self.label_frames.setObjectName("label_frames")

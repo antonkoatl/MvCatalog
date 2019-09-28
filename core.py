@@ -24,7 +24,7 @@ class CoreWorker(QObject):
     def request_list_data(self, command):
         if command == 'start':
             self.db_helper.connect()
-            self.db_helper.fill_test_data()
+            #self.db_helper.fill_test_data()
             return
 
         if command == 'start_list':
