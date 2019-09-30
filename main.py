@@ -3,7 +3,7 @@ import sys
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtCore import QThread, Qt, QEvent
 from PyQt5.QtGui import QMouseEvent
-from PyQt5.QtWidgets import QFileDialog
+from PyQt5.QtWidgets import QFileDialog, QListWidgetItem
 
 import data.design_main
 from core import *
@@ -69,9 +69,6 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
         self.pushButton_2.clicked.connect(self.delete_item)
 
         self.horizontalSlider.valueChanged.connect(self.slider_changed)
-        self.horizontalSlider.setMouseTracking(True)
-        self.horizontalSlider.mouseMoveEvent = self.slider_mouseMoveEvent
-        self.horizontalSlider.installEventFilter(self)
 
         self.scrollArea.hide()
 
@@ -81,18 +78,6 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
         self.show()
         self.signal_db_open.emit(None)
 
-
-    def eventFilter(self, obj, event):
-        if event.type() in (QEvent.MouseButtonPress,
-                            QEvent.MouseButtonDblClick):
-            if event.button() == Qt.LeftButton:
-                return True
-        return super(MyWindow, self).eventFilter(obj, event)
-
-    def slider_mouseMoveEvent(self, e: QMouseEvent, *args, **kwargs):
-        if self.horizontalSlider.maximum() > 0:
-            position = round(self.horizontalSlider.maximum() * e.x() / self.horizontalSlider.width())
-            self.horizontalSlider.setValue(position)
 
     def closeEvent(self, event):
         self.settings.setValue("geometry", self.saveGeometry())
@@ -144,8 +129,8 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
         if int == 1:
             self.signal_db_request.emit("start_list")
 
-
-    def list_item_clicked(self, item):
+    @pyqtSlot(QListWidgetItem)
+    def list_item_clicked(self, item: QListWidgetItem):
         if item is None:
             self.scrollArea.hide()
             return
@@ -169,18 +154,21 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
         movie.fill_widget(self)
         file.fill_widget(self)
 
+    @pyqtSlot()
     def add_item(self):
         self.edit_dialog.prepare()
         if self.edit_dialog.exec_():
             #self.signal_db_updater.emit([self.edit_dialog.movie, self.edit_dialog.file])
             pass
 
+    @pyqtSlot()
     def edit_item(self):
         if self.current_item_index == -1: return
         self.edit_dialog.prepare(self.list_data[self.current_item_index][0], self.list_data[self.current_item_index][1])
         if self.edit_dialog.exec_():
             self.signal_db_updater.emit(self.edit_dialog.movie, self.edit_dialog.file)
 
+    @pyqtSlot()
     def delete_item(self):
         if self.current_item_index == -1: return
         self.signal_db_remover.emit(self.list_data.pop(self.current_item_index)[1])
@@ -189,14 +177,17 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
         self.current_item_index = -1
         self.list_item_clicked(None)
 
+    @pyqtSlot()
     def slider_changed(self):
         file = self.list_data[self.current_item_index][1]
-        file.show_frame(self.label_frames, self.horizontalSlider.value())
+        file.show_frame(self.label_frames, self.sender().value())
 
+    @pyqtSlot()
     def new_db(self):
         fname, _filter = QFileDialog.getSaveFileName(self, 'Open file', filter='*.mcat')
         self.signal_db_new.emit(fname)
 
+    @pyqtSlot()
     def open_db(self):
         fname, _filter = QFileDialog.getOpenFileName(self, 'Open file', filter='*.mcat')
         self.signal_db_open.emit(fname)

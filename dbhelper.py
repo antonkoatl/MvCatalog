@@ -65,7 +65,6 @@ class DBHelper:
 
         try:
             self.conn = sqlite3.connect(self.db_file)
-            c = self.conn.cursor()
         except sqlite3.Error as e:
             print(e)
             if self.conn:

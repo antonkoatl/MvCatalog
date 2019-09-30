@@ -66,7 +66,7 @@
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>0</y>
+             <y>-21</y>
              <width>596</width>
              <height>753</height>
             </rect>
@@ -737,7 +737,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QSlider" name="horizontalSlider">
+                 <widget class="MySlider" name="horizontalSlider">
                   <property name="maximum">
                    <number>0</number>
                   </property>
@@ -807,6 +807,13 @@
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MySlider</class>
+   <extends>QSlider</extends>
+   <header>myslider.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="resource.qrc"/>
  </resources>

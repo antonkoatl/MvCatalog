@@ -13,7 +13,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(784, 726)
+        Dialog.resize(784, 789)
         self.gridLayout_4 = QtWidgets.QGridLayout(Dialog)
         self.gridLayout_4.setObjectName("gridLayout_4")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
@@ -193,7 +193,7 @@ class Ui_Dialog(object):
         self.label_frames.setPixmap(QtGui.QPixmap(":/newPrefix/placeholder.png"))
         self.label_frames.setObjectName("label_frames")
         self.verticalLayout.addWidget(self.label_frames)
-        self.horizontalSlider = QtWidgets.QSlider(Dialog)
+        self.horizontalSlider = MySlider(Dialog)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -265,4 +265,5 @@ class Ui_Dialog(object):
         self.label_5.setText(_translate("Dialog", "Жанр"))
         self.lineEdit_script.setText(_translate("Dialog", "test"))
         self.label_4.setText(_translate("Dialog", "Страны"))
+from myslider import MySlider
 import resource_rc

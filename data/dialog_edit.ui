@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>784</width>
-    <height>726</height>
+    <height>789</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -420,7 +420,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QSlider" name="horizontalSlider">
+      <widget class="MySlider" name="horizontalSlider">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -464,6 +464,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MySlider</class>
+   <extends>QSlider</extends>
+   <header>myslider.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="resource.qrc"/>
  </resources>

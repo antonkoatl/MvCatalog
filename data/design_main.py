@@ -50,7 +50,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 596, 753))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -21, 596, 753))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_3.setSizeConstraint(QtWidgets.QLayout.SetNoConstraint)
@@ -316,7 +316,7 @@ class Ui_MainWindow(object):
         self.label_frames.setPixmap(QtGui.QPixmap(":/newPrefix/placeholder.png"))
         self.label_frames.setObjectName("label_frames")
         self.verticalLayout_5.addWidget(self.label_frames)
-        self.horizontalSlider = QtWidgets.QSlider(self.scrollAreaWidgetContents)
+        self.horizontalSlider = MySlider(self.scrollAreaWidgetContents)
         self.horizontalSlider.setMaximum(0)
         self.horizontalSlider.setOrientation(QtCore.Qt.Horizontal)
         self.horizontalSlider.setObjectName("horizontalSlider")
@@ -408,4 +408,5 @@ class Ui_MainWindow(object):
         self.actionAdd_Action.setText(_translate("MainWindow", "Добавить"))
         self.action_file_new.setText(_translate("MainWindow", "Новая база данных"))
         self.action_file_open.setText(_translate("MainWindow", "Открыть базу данных"))
+from myslider import MySlider
 import resource_rc

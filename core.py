@@ -95,7 +95,7 @@ class CoreWorker(QObject):
 
         if self.db_helper.create_connection():
             # self.db_helper.fill_test_data()
-            self.settings.setValue("last_db", fname)
+            self.settings.setValue("last_db", self.db_helper.db_file)
             self.signal_send_open_db_result.emit(1)
         else:
             self.signal_send_open_db_result.emit(0)
