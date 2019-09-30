@@ -66,7 +66,7 @@
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-21</y>
+             <y>0</y>
              <width>596</width>
              <height>753</height>
             </rect>
@@ -769,6 +769,14 @@
      <height>22</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>Файл</string>
+    </property>
+    <addaction name="action_file_new"/>
+    <addaction name="action_file_open"/>
+   </widget>
+   <addaction name="menu"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
@@ -786,6 +794,16 @@
   <action name="actionAdd_Action">
    <property name="text">
     <string>Добавить</string>
+   </property>
+  </action>
+  <action name="action_file_new">
+   <property name="text">
+    <string>Новая база данных</string>
+   </property>
+  </action>
+  <action name="action_file_open">
+   <property name="text">
+    <string>Открыть базу данных</string>
    </property>
   </action>
  </widget>

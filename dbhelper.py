@@ -1,7 +1,5 @@
 import sqlite3
-import itertools
-
-from PyQt5.QtCore import pyqtSignal
+from pathlib import Path
 
 from file import CatFile
 from movie import CatMovie
@@ -46,21 +44,35 @@ class DBHelper:
         self.cursor_list = None
         self.list_last_element = None
 
-    def connect(self):
-        self.create_connection(self.db_file)
-        self.create_table(self.sql_create_movies_table)
-        self.create_table(self.sql_create_files_table)
-
-    def create_connection(self, db_file):
+    def create_db(self, fname):
+        self.db_file = fname
         self.conn = None
 
         try:
-            self.conn = sqlite3.connect(db_file)
+            self.conn = sqlite3.connect(self.db_file)
+            self.create_table(self.sql_create_movies_table)
+            self.create_table(self.sql_create_files_table)
+        except sqlite3.Error as e:
+            print(e)
+            if self.conn:
+                self.conn.close()
+            return False
+
+        return True
+
+    def create_connection(self):
+        self.conn = None
+
+        try:
+            self.conn = sqlite3.connect(self.db_file)
             c = self.conn.cursor()
         except sqlite3.Error as e:
             print(e)
             if self.conn:
                 self.conn.close()
+            return False
+
+        return True
 
     def create_table(self, create_table_sql):
         """ create a table from the create_table_sql statement
@@ -71,6 +83,7 @@ class DBHelper:
         try:
             c = self.conn.cursor()
             c.execute(create_table_sql)
+            self.conn.commit()
         except sqlite3.Error as e:
             print(e)
 

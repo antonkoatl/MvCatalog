@@ -1,10 +1,12 @@
-import sys, time
-from PyQt5 import QtWidgets, uic, QtGui, QtCore
-from PyQt5.QtCore import QThread, QObject, pyqtSignal, pyqtSlot, QSettings, Qt, QEvent
-from PyQt5.QtWidgets import QTableWidgetItem
-from PyQt5.QtGui import QPixmap, QMouseEvent
-from core import *
+import sys
+
+from PyQt5 import QtWidgets, QtCore
+from PyQt5.QtCore import QThread, Qt, QEvent
+from PyQt5.QtGui import QMouseEvent
+from PyQt5.QtWidgets import QFileDialog
+
 import data.design_main
+from core import *
 from edit_dialog import EditDialog
 from file import CatFile
 from movie import CatMovie
@@ -14,13 +16,14 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
     signal_db_request = pyqtSignal(str)
     signal_db_updater = pyqtSignal(CatMovie, CatFile)
     signal_db_remover = pyqtSignal(CatFile)
-    list_data = []
-    current_item_index = -1
+    signal_db_new = pyqtSignal(str)
+    signal_db_open = pyqtSignal(str)
+
+    settings: QSettings = QSettings("data/settings.ini", QSettings.IniFormat)
 
     def __init__(self):
         super(MyWindow, self).__init__()
-        self.list_continues = False
-        self.settings = QSettings("MyCompany", "MyApp")
+
         #uic.loadUi('data/main.ui', self)
         self.setupUi(self)
 
@@ -29,14 +32,15 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
         if not self.settings.value("windowState") == None:
             self.restoreState(self.settings.value("windowState"))
 
-        self.listWidget.itemClicked.connect(self.list_item_clicked)
-        self.listWidget.clear()
+        self.list_data = []
+        self.current_item_index = -1
+        self.list_continues = False
 
-        self.show()
         self.myThread = QThread(self)
         self.myThread.start()
 
         self.core_worker = CoreWorker()
+        self.core_worker.db_helper.db_file = self.settings.value("last_db", "", str)
         self.core_worker.moveToThread(self.myThread)
 
         self.core_worker.signal_fill_items_to_list.connect(self.fill_records_list)
@@ -44,8 +48,8 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
         self.signal_db_updater.connect(self.core_worker.update_db)
         self.signal_db_remover.connect(self.core_worker.removefrom_db)
         self.signal_db_request.connect(self.core_worker.request_list_data)
-        self.signal_db_request.emit("start")
-        self.signal_db_request.emit("start_list")
+        self.signal_db_new.connect(self.core_worker.new_db)
+        self.signal_db_open.connect(self.core_worker.open_db)
 
         self.edit_dialog = EditDialog(self)
         self.edit_dialog.signal_db_updater.connect(self.core_worker.update_db)
@@ -54,6 +58,10 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
         self.core_worker.signal_send_file_to_editdialog.connect(self.edit_dialog.receive_file)
         self.core_worker.signal_send_frames_to_editdialog.connect(self.edit_dialog.receive_frames)
         self.core_worker.signal_update_progress_bar.connect(self.edit_dialog.progressBar.setValue)
+        self.core_worker.signal_send_open_db_result.connect(self.open_db_listener)
+
+        self.listWidget.itemClicked.connect(self.list_item_clicked)
+        self.listWidget.clear()
 
         self.actionAdd_Action.triggered.connect(self.add_item)
 
@@ -66,6 +74,13 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
         self.horizontalSlider.installEventFilter(self)
 
         self.scrollArea.hide()
+
+        self.action_file_new.triggered.connect(self.new_db)
+        self.action_file_open.triggered.connect(self.open_db)
+
+        self.show()
+        self.signal_db_open.emit(None)
+
 
     def eventFilter(self, obj, event):
         if event.type() in (QEvent.MouseButtonPress,
@@ -83,6 +98,7 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
         self.settings.setValue("geometry", self.saveGeometry())
         self.settings.setValue("windowState", self.saveState())
         QtWidgets.QMainWindow.closeEvent(self, event)
+
 
     @pyqtSlot(list)
     def fill_records_list(self, data):
@@ -119,6 +135,15 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
 
         if (self.list_continues):
             self.listWidget.addItem("More...")
+
+    @pyqtSlot(int)
+    def open_db_listener(self, int):
+        if int == 0:
+            self.open_db()
+
+        if int == 1:
+            self.signal_db_request.emit("start_list")
+
 
     def list_item_clicked(self, item):
         if item is None:
@@ -167,6 +192,14 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
     def slider_changed(self):
         file = self.list_data[self.current_item_index][1]
         file.show_frame(self.label_frames, self.horizontalSlider.value())
+
+    def new_db(self):
+        fname, _filter = QFileDialog.getSaveFileName(self, 'Open file', filter='*.mcat')
+        self.signal_db_new.emit(fname)
+
+    def open_db(self):
+        fname, _filter = QFileDialog.getOpenFileName(self, 'Open file', filter='*.mcat')
+        self.signal_db_open.emit(fname)
 
 
 if __name__ == '__main__':
