@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import QSlider
 class MySlider(QSlider):
 
     def __init__(self, *__args):
-        super(QSlider, self).__init__(*__args)
+        super(MySlider, self).__init__(*__args)
         self.setMouseTracking(True)
         self.installEventFilter(self)
 

@@ -7,7 +7,7 @@ class PosterLabel(QLabel):
     signal_load_poster = pyqtSignal(str)
 
     def mousePressEvent(self, ev: QtGui.QMouseEvent) -> None:
-        super(QLabel, self).mousePressEvent(ev)
+        super(PosterLabel, self).mousePressEvent(ev)
         if (ev.button() == Qt.LeftButton):
             fname, _filter = QFileDialog.getOpenFileName(self, 'Open file', filter='Images (*.png .jpg)')
             if fname:

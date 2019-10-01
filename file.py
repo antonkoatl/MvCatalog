@@ -40,7 +40,7 @@ class CatFile:
         if isinstance(widget, data.design_main.Ui_MainWindow):
             widget: data.design_main.Ui_MainWindow
 
-            widget.label_file_name.setText(self.name)
+            widget.plainTextEdit_file_name.setPlainText(self.name)
             widget.label_size.setText(self.size)
             widget.label_resolution.setText(self.resolution)
             widget.label_codec.setText(self.codec)
