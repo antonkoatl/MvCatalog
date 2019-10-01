@@ -32,14 +32,17 @@ class VideoHelper():
         N = 20
         for i in range(N):
             #frame = self.get_frame(math.floor(i * self.frame_count / N))
-            frame = self.get_frame_time(math.floor(i * self.file.length / N))
+            frame = self._get_frame_time(math.floor(i * self.file.length / N))
             if frame is not None:
                 self.frames.append(frame)
                 signal.emit(i)
             else:
                 return
 
-    def get_frame_time(self, time):
+    def get_frame(self, index, N):
+        return self._get_frame_time(math.floor(index * self.file.length / N))
+
+    def _get_frame_time(self, time):
         out, _ = (
             ffmpeg
                 .input(self.fname, ss=time)
@@ -50,7 +53,7 @@ class VideoHelper():
 
         return out
 
-    def get_frame(self, frame):
+    def _get_frame(self, frame):
         out, _ = (
             ffmpeg
                 .input(self.fname)

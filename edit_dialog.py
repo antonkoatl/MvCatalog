@@ -1,6 +1,7 @@
-from PyQt5.QtCore import Qt, pyqtSignal, pyqtSlot, QEvent, QObject
-from PyQt5.QtGui import QPixmap, QMouseEvent
+from PyQt5.QtCore import pyqtSignal, pyqtSlot
+from PyQt5.QtGui import QMovie
 from PyQt5.QtWidgets import QDialog, QMessageBox, QFileDialog
+
 import data.design_dialog_edit
 from file import CatFile
 from movie import CatMovie
@@ -12,13 +13,21 @@ class EditDialog(QDialog, data.design_dialog_edit.Ui_Dialog):
 
     signal_db_updater = pyqtSignal(CatMovie, CatFile)
     signal_parse_video = pyqtSignal(str)
+    signal_send_breaker = pyqtSignal(str)
 
     def __init__(self, parent=None):
         super(EditDialog, self).__init__(parent)
         self.setupUi(self)
-        self.pushButton.clicked.connect(self.on_click_save)
-        self.pushButton_2.clicked.connect(self.on_click_openfile)
+        self.pushButton_save.clicked.connect(self.on_click_save)
+        self.pushButton_open.clicked.connect(self.on_click_openfile)
         self.horizontalSlider.valueChanged.connect(self.slider_changed)
+
+        self.loading = False
+        self.loader_movie: QMovie = QMovie('data/loader.gif')
+        self.label_loading.setMovie(self.loader_movie)
+
+    def closeEvent(self, event):
+        self.signal_send_breaker.emit('parse_video')
 
 
     @pyqtSlot()
@@ -31,6 +40,7 @@ class EditDialog(QDialog, data.design_dialog_edit.Ui_Dialog):
     def on_click_openfile(self):
         fname, _filter = QFileDialog.getOpenFileName(self, 'Open file', filter='Video (*.mkv .avi .mp4 .webm)')
         if fname:
+            self.set_loading(True)
             self.progressBar.setMaximum(20-1)
             self.signal_parse_video.emit(fname)
 
@@ -56,6 +66,7 @@ class EditDialog(QDialog, data.design_dialog_edit.Ui_Dialog):
 
         self.horizontalSlider.setMaximum(len(self.file.frames) - 1)
         self.file.show_frame(self.label_frames, 0)
+        self.set_loading(False)
 
     @pyqtSlot(bytes)
     def update_poster(self, image):
@@ -76,3 +87,17 @@ class EditDialog(QDialog, data.design_dialog_edit.Ui_Dialog):
         else:
             self.file = file
             self.file.fill_widget(self)
+
+        self.set_loading(False)
+        self.progressBar.setValue(0)
+
+    def set_loading(self, loading):
+        self.loading = loading
+        if loading:
+            self.label_loading.setMovie(self.loader_movie)
+            self.loader_movie.start()
+            self.pushButton_save.setEnabled(False)
+        else:
+            self.label_loading.clear()
+            self.loader_movie.stop()
+            self.pushButton_save.setEnabled(True)

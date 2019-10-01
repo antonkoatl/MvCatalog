@@ -14,24 +14,6 @@
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_4">
-   <item row="2" column="0">
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
-      <widget class="QLabel" name="label_21">
-       <property name="text">
-        <string>Файл</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_2">
-       <property name="text">
-        <string>Открыть</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
    <item row="3" column="0">
     <layout class="QGridLayout" name="gridLayout_7">
      <item row="0" column="2">
@@ -173,13 +155,6 @@
     <widget class="QLabel" name="label_22">
      <property name="text">
       <string>Фильм</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="1">
-    <widget class="QPushButton" name="pushButton">
-     <property name="text">
-      <string>Сохранить</string>
      </property>
     </widget>
    </item>
@@ -328,7 +303,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_3">
+        <widget class="QPushButton" name="pushButton_search">
          <property name="text">
           <string>Поиск</string>
          </property>
@@ -455,6 +430,42 @@
      </item>
     </layout>
    </item>
+   <item row="5" column="1">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="label_loading">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>23</width>
+         <height>23</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>23</width>
+         <height>23</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_save">
+       <property name="text">
+        <string>Сохранить</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
    <item row="2" column="1">
     <widget class="QProgressBar" name="progressBar">
      <property name="sizePolicy">
@@ -467,6 +478,24 @@
       <number>0</number>
      </property>
     </widget>
+   </item>
+   <item row="2" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QLabel" name="label_21">
+       <property name="text">
+        <string>Файл</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_open">
+       <property name="text">
+        <string>Открыть</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>

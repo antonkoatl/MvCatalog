@@ -1,6 +1,8 @@
 import os
 
 from PyQt5.QtCore import QObject, pyqtSignal, pyqtSlot, QSettings
+from PyQt5.QtWidgets import QApplication
+
 from dbhelper import *
 from file import CatFile
 from movie import CatMovie
@@ -18,6 +20,8 @@ class CoreWorker(QObject):
     signal_update_poster_label = pyqtSignal(bytes)
 
     settings = QSettings("data/settings.ini", QSettings.IniFormat)
+
+    breaker_parse_video = False
 
     def __init__(self):
         QObject.__init__(self)
@@ -65,11 +69,24 @@ class CoreWorker(QObject):
 
     @pyqtSlot(str)
     def parse_video_file(self, fname):
+        self.breaker_parse_video = False
         video = VideoHelper(fname)
         self.signal_send_file_to_editdialog.emit(video.file)
 
-        video.get_frames(self.signal_update_progress_bar)
+        N = 20
+        for i in range(N):
+            QApplication.processEvents()
+            if self.breaker_parse_video:
+                self.breaker_parse_video = not self.breaker_parse_video
+                return
+
+            frame = video.get_frame(i, N)
+            if frame is not None:
+                video.frames.append(frame)
+                self.signal_update_progress_bar.emit(i)
+
         self.signal_send_frames_to_editdialog.emit(video.frames)
+        self.breaker_parse_video = True
 
     @pyqtSlot(str)
     def new_db(self, fname):
@@ -110,3 +127,8 @@ class CoreWorker(QObject):
                 self.signal_update_poster_label.emit(image_binary)
         else:
             self.signal_update_poster_label.emit(b'')
+
+    @pyqtSlot(str)
+    def set_breaker(self, name):
+        if name == 'parse_video':
+            self.breaker_parse_video = True
