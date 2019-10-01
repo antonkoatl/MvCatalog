@@ -374,7 +374,7 @@
     </layout>
    </item>
    <item row="1" column="1">
-    <widget class="QLabel" name="label_poster">
+    <widget class="PosterLabel" name="label_poster">
      <property name="minimumSize">
       <size>
        <width>240</width>
@@ -392,6 +392,9 @@
      </property>
      <property name="pixmap">
       <pixmap resource="resource.qrc">:/newPrefix/placeholder.png</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>false</bool>
      </property>
     </widget>
    </item>
@@ -416,6 +419,9 @@
        </property>
        <property name="pixmap">
         <pixmap resource="resource.qrc">:/newPrefix/placeholder.png</pixmap>
+       </property>
+       <property name="scaledContents">
+        <bool>false</bool>
        </property>
       </widget>
      </item>
@@ -469,6 +475,11 @@
    <class>MySlider</class>
    <extends>QSlider</extends>
    <header>myslider.h</header>
+  </customwidget>
+  <customwidget>
+   <class>PosterLabel</class>
+   <extends>QLabel</extends>
+   <header>posterlabel.h</header>
   </customwidget>
  </customwidgets>
  <resources>

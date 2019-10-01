@@ -1,4 +1,4 @@
-from PyQt5.QtCore import Qt, pyqtSignal, pyqtSlot, QEvent
+from PyQt5.QtCore import Qt, pyqtSignal, pyqtSlot, QEvent, QObject
 from PyQt5.QtGui import QPixmap, QMouseEvent
 from PyQt5.QtWidgets import QDialog, QMessageBox, QFileDialog
 import data.design_dialog_edit
@@ -29,9 +29,10 @@ class EditDialog(QDialog, data.design_dialog_edit.Ui_Dialog):
 
     @pyqtSlot()
     def on_click_openfile(self):
-        fname, _filter = QFileDialog.getOpenFileName(self, 'Open file', '.')
-        self.progressBar.setMaximum(20-1)
-        self.signal_parse_video.emit(fname)
+        fname, _filter = QFileDialog.getOpenFileName(self, 'Open file', filter='Video (*.mkv .avi .mp4 .webm)')
+        if fname:
+            self.progressBar.setMaximum(20-1)
+            self.signal_parse_video.emit(fname)
 
     @pyqtSlot()
     def slider_changed(self):
@@ -55,6 +56,12 @@ class EditDialog(QDialog, data.design_dialog_edit.Ui_Dialog):
 
         self.horizontalSlider.setMaximum(len(self.file.frames) - 1)
         self.file.show_frame(self.label_frames, 0)
+
+    @pyqtSlot(bytes)
+    def update_poster(self, image):
+        if not image: image = None
+        self.movie.poster = image
+        self.movie.show_poster(self.label_poster)
 
 
     def prepare(self, movie: CatMovie = None, file: CatFile = None):

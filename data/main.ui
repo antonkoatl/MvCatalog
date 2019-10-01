@@ -66,7 +66,7 @@
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-21</y>
+             <y>0</y>
              <width>596</width>
              <height>753</height>
             </rect>
@@ -127,6 +127,9 @@
                 </property>
                 <property name="pixmap">
                  <pixmap resource="resource.qrc">:/newPrefix/placeholder.png</pixmap>
+                </property>
+                <property name="scaledContents">
+                 <bool>false</bool>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -733,6 +736,9 @@
                   </property>
                   <property name="pixmap">
                    <pixmap resource="resource.qrc">:/newPrefix/placeholder.png</pixmap>
+                  </property>
+                  <property name="scaledContents">
+                   <bool>false</bool>
                   </property>
                  </widget>
                 </item>

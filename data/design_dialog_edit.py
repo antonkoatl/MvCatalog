@@ -177,11 +177,12 @@ class Ui_Dialog(object):
         self.label_4.setObjectName("label_4")
         self.gridLayout_3.addWidget(self.label_4, 3, 0, 1, 1)
         self.gridLayout_4.addLayout(self.gridLayout_3, 1, 0, 1, 1)
-        self.label_poster = QtWidgets.QLabel(Dialog)
+        self.label_poster = PosterLabel(Dialog)
         self.label_poster.setMinimumSize(QtCore.QSize(240, 426))
         self.label_poster.setMaximumSize(QtCore.QSize(240, 426))
         self.label_poster.setText("")
         self.label_poster.setPixmap(QtGui.QPixmap(":/newPrefix/placeholder.png"))
+        self.label_poster.setScaledContents(False)
         self.label_poster.setObjectName("label_poster")
         self.gridLayout_4.addWidget(self.label_poster, 1, 1, 1, 1)
         self.verticalLayout = QtWidgets.QVBoxLayout()
@@ -191,6 +192,7 @@ class Ui_Dialog(object):
         self.label_frames.setMaximumSize(QtCore.QSize(240, 320))
         self.label_frames.setText("")
         self.label_frames.setPixmap(QtGui.QPixmap(":/newPrefix/placeholder.png"))
+        self.label_frames.setScaledContents(False)
         self.label_frames.setObjectName("label_frames")
         self.verticalLayout.addWidget(self.label_frames)
         self.horizontalSlider = MySlider(Dialog)
@@ -266,4 +268,5 @@ class Ui_Dialog(object):
         self.lineEdit_script.setText(_translate("Dialog", "test"))
         self.label_4.setText(_translate("Dialog", "Страны"))
 from myslider import MySlider
+from posterlabel import PosterLabel
 import resource_rc

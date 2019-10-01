@@ -1,6 +1,6 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QTableWidget, QWidget
+from PyQt5.QtWidgets import QTableWidget, QWidget, QLabel
 import data.design_main, data.design_dialog_edit, resource_rc
 
 class CatMovie:
@@ -47,14 +47,7 @@ class CatMovie:
         if isinstance(widget, data.design_main.Ui_MainWindow):
             widget: data.design_main.Ui_MainWindow
 
-            if self.poster is not None:
-                pixmap = QPixmap()
-                pixmap.loadFromData(self.poster)
-                pixmap = pixmap.scaled(widget.label_poster.width(), widget.label_poster.height(), Qt.KeepAspectRatio)
-                widget.label_poster.setPixmap(pixmap)
-            else:
-                pixmap = QPixmap(":/newPrefix/placeholder.png")
-                widget.label_poster.setPixmap(pixmap)
+            self.show_poster(widget.label_poster)
 
             widget.label_movie_name.setText(self.name)
             widget.label_orig_name.setText(self.orig_name)
@@ -72,10 +65,7 @@ class CatMovie:
         if isinstance(widget, data.design_dialog_edit.Ui_Dialog):
             widget: data.design_dialog_edit.Ui_Dialog
 
-            pixmap = QPixmap()
-            pixmap.loadFromData(self.poster)
-            pixmap = pixmap.scaled(widget.label_poster.width(), widget.label_poster.height(), Qt.KeepAspectRatio)
-            widget.label_poster.setPixmap(pixmap)
+            self.show_poster(widget.label_poster)
 
             widget.lineEdit_movie_name.setText(self.name)
             widget.lineEdit_orig_name.setText(self.orig_name)
@@ -89,6 +79,17 @@ class CatMovie:
             widget.lineEdit_actors.setText(self.actors)
 
             widget.textEdit_description.setPlainText(self.description)
+
+    def show_poster(self, label: QLabel):
+        if self.poster is not None:
+            pixmap = QPixmap()
+            pixmap.loadFromData(self.poster)
+            pixmap = pixmap.scaled(label.width(), label.height(), Qt.KeepAspectRatio)
+            label.setPixmap(pixmap)
+        else:
+            pixmap = QPixmap(":/newPrefix/placeholder.png")
+            pixmap = pixmap.scaled(label.width(), label.height())
+            label.setPixmap(pixmap)
 
     def load_from_widget(self, widget: data.design_dialog_edit.Ui_Dialog):
         self.name = widget.lineEdit_movie_name.text()

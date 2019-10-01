@@ -15,6 +15,7 @@ class CoreWorker(QObject):
     signal_send_frames_to_editdialog = pyqtSignal(list)
     signal_update_progress_bar = pyqtSignal(int)
     signal_send_open_db_result = pyqtSignal(int)
+    signal_update_poster_label = pyqtSignal(bytes)
 
     settings = QSettings("data/settings.ini", QSettings.IniFormat)
 
@@ -99,3 +100,13 @@ class CoreWorker(QObject):
             self.signal_send_open_db_result.emit(1)
         else:
             self.signal_send_open_db_result.emit(0)
+
+    @pyqtSlot(str)
+    def load_poster(self, fname):
+        if fname:
+            with open(fname, mode='rb') as f:
+                image_binary = f.read()
+
+                self.signal_update_poster_label.emit(image_binary)
+        else:
+            self.signal_update_poster_label.emit(b'')

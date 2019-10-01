@@ -82,6 +82,7 @@ class CatFile:
     def show_frame(self, label: QLabel, index):
         if index >= len(self.frames) or index == -1:
             pixmap = QPixmap(":/newPrefix/placeholder.png")
+            pixmap = pixmap.scaled(label.width(), label.height())
             label.setPixmap(pixmap)
         else:
             pixmap = QPixmap()

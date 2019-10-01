@@ -1,4 +1,4 @@
-from PyQt5 import Qt
+from PyQt5.QtCore import Qt
 from PyQt5.QtCore import QEvent
 from PyQt5.QtGui import QMouseEvent
 from PyQt5.QtWidgets import QSlider

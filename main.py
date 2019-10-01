@@ -1,8 +1,7 @@
 import sys
 
 from PyQt5 import QtWidgets, QtCore
-from PyQt5.QtCore import QThread, Qt, QEvent
-from PyQt5.QtGui import QMouseEvent
+from PyQt5.QtCore import QThread
 from PyQt5.QtWidgets import QFileDialog, QListWidgetItem
 
 import data.design_main
@@ -54,11 +53,13 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
         self.edit_dialog = EditDialog(self)
         self.edit_dialog.signal_db_updater.connect(self.core_worker.update_db)
         self.edit_dialog.signal_parse_video.connect(self.core_worker.parse_video_file)
+        self.edit_dialog.label_poster.signal_load_poster.connect(self.core_worker.load_poster)
         self.core_worker.signal_update_db_result.connect(self.edit_dialog.update_db_result)
         self.core_worker.signal_send_file_to_editdialog.connect(self.edit_dialog.receive_file)
         self.core_worker.signal_send_frames_to_editdialog.connect(self.edit_dialog.receive_frames)
         self.core_worker.signal_update_progress_bar.connect(self.edit_dialog.progressBar.setValue)
         self.core_worker.signal_send_open_db_result.connect(self.open_db_listener)
+        self.core_worker.signal_update_poster_label.connect(self.edit_dialog.update_poster)
 
         self.listWidget.itemClicked.connect(self.list_item_clicked)
         self.listWidget.clear()
