@@ -281,6 +281,6 @@ class Ui_Dialog(object):
         self.pushButton_save.setText(_translate("Dialog", "Сохранить"))
         self.label_21.setText(_translate("Dialog", "Файл"))
         self.pushButton_open.setText(_translate("Dialog", "Открыть"))
-from myslider import MySlider
-from posterlabel import PosterLabel
+from ui.myslider import MySlider
+from ui.posterlabel import PosterLabel
 import resource_rc

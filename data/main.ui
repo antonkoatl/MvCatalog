@@ -860,12 +860,12 @@
   <customwidget>
    <class>MySlider</class>
    <extends>QSlider</extends>
-   <header>myslider.h</header>
+   <header>ui/myslider.h</header>
   </customwidget>
   <customwidget>
    <class>GrowingTextEdit</class>
    <extends>QPlainTextEdit</extends>
-   <header>mytextedit.h</header>
+   <header>ui/mytextedit.h</header>
   </customwidget>
  </customwidgets>
  <resources>

@@ -426,6 +426,6 @@ class Ui_MainWindow(object):
         self.actionAdd_Action.setText(_translate("MainWindow", "Добавить"))
         self.action_file_new.setText(_translate("MainWindow", "Новая база данных"))
         self.action_file_open.setText(_translate("MainWindow", "Открыть базу данных"))
-from myslider import MySlider
-from mytextedit import GrowingTextEdit
+from ui.myslider import MySlider
+from ui.mytextedit import GrowingTextEdit
 import resource_rc

@@ -503,12 +503,12 @@
   <customwidget>
    <class>MySlider</class>
    <extends>QSlider</extends>
-   <header>myslider.h</header>
+   <header>ui/myslider.h</header>
   </customwidget>
   <customwidget>
    <class>PosterLabel</class>
    <extends>QLabel</extends>
-   <header>posterlabel.h</header>
+   <header>ui/posterlabel.h</header>
   </customwidget>
  </customwidgets>
  <resources>
