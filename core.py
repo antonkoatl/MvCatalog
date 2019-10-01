@@ -46,14 +46,14 @@ class CoreWorker(QObject):
 
     @pyqtSlot(CatMovie, CatFile)
     def update_db(self, movie: CatMovie, file: CatFile):
-        movie.id, error = self.db_helper.update_movie(movie)
+        id, error = self.db_helper.update_movie(movie)
 
         if error is not None:
             self.signal_update_db_result.emit(error)
             return
 
         if file.movie_id == -1:
-            file.movie_id = movie.id
+            file.movie_id = id
 
         error = self.db_helper.update_file(file)
         if error is not None:
@@ -75,12 +75,14 @@ class CoreWorker(QObject):
 
         N = 20
         for i in range(N):
+            frame = video.get_frame(i, N)
+
             QApplication.processEvents()
+
             if self.breaker_parse_video:
                 self.breaker_parse_video = not self.breaker_parse_video
                 return
 
-            frame = video.get_frame(i, N)
             if frame is not None:
                 video.frames.append(frame)
                 self.signal_update_progress_bar.emit(i)
