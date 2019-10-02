@@ -1,7 +1,10 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QTableWidget, QWidget, QLabel
-import data.design_main, data.design_dialog_edit, resource_rc
+from PyQt5.QtWidgets import QLabel
+
+import data.design_dialog_edit
+import data.design_main
+
 
 class CatMovie:
     id = None
@@ -25,20 +28,35 @@ class CatMovie:
                 image_binary = f.read()
                 self.poster = image_binary
             return
-        st = 11
-        self.id = item[st]
-        self.name = item[st+1] if item[st+1] is not None else item[st+2]
-        self.orig_name = item[st+2]
-        self.year = int(item[st+3])
-        self.country = item[st+4]
-        self.genre = item[st+5]
-        self.length = int(item[st+6])
-        self.rating = item[st+7]
-        self.director = item[st+8]
-        self.script = item[st+9]
-        self.actors = item[st+10]
-        self.description = item[st+11]
-        self.poster = item[st+12]
+        if len(item) > 13:
+            st = 11
+            self.id = item[st]
+            self.name = item[st+1] if item[st+1] is not None else item[st+2]
+            self.orig_name = item[st+2]
+            self.year = int(item[st+3])
+            self.country = item[st+4]
+            self.genre = item[st+5]
+            self.length = int(item[st+6])
+            self.rating = item[st+7]
+            self.director = item[st+8]
+            self.script = item[st+9]
+            self.actors = item[st+10]
+            self.description = item[st+11]
+            self.poster = item[st+12]
+        else:
+            self.id = item[0]
+            self.name = item[1] if item[1] is not None else item[2]
+            self.orig_name = item[2]
+            self.year = int(item[3])
+            self.country = item[4]
+            self.genre = item[5]
+            self.length = int(item[6])
+            self.rating = item[7]
+            self.director = item[8]
+            self.script = item[9]
+            self.actors = item[10]
+            self.description = item[11]
+            self.poster = item[12]
 
     def get_values_list(self):
         return [self.id, self.name, self.orig_name, self.year, self.country, self.genre, self.length, self.rating, self.director, self.script, self.actors, self.description, self.poster]
@@ -67,7 +85,8 @@ class CatMovie:
 
             self.show_poster(widget.label_poster)
 
-            widget.lineEdit_movie_name.setText(self.name)
+            widget.comboBox_movie_name.setEditText(self.name)
+            widget.comboBox_movie_name.lineEdit().textEdited.emit(self.name)
             widget.lineEdit_orig_name.setText(self.orig_name)
             widget.lineEdit_year.setText(str(self.year))
             widget.lineEdit_country.setText(self.country)
@@ -92,7 +111,7 @@ class CatMovie:
             label.setPixmap(pixmap)
 
     def load_from_widget(self, widget: data.design_dialog_edit.Ui_Dialog):
-        self.name = widget.lineEdit_movie_name.text()
+        self.name = widget.comboBox_movie_name.currentText()
         self.orig_name = widget.lineEdit_orig_name.text()
         self.year = int(widget.lineEdit_year.text())
         self.country = widget.lineEdit_country.text()
@@ -103,3 +122,6 @@ class CatMovie:
         self.script = widget.lineEdit_script.text()
         self.actors = widget.lineEdit_actors.text()
         self.description = widget.textEdit_description.toPlainText()
+
+    def __str__(self):
+        return self.name + " (" + self.orig_name + ")"

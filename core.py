@@ -18,6 +18,7 @@ class CoreWorker(QObject):
     signal_update_progress_bar = pyqtSignal(int)
     signal_send_open_db_result = pyqtSignal(int)
     signal_update_poster_label = pyqtSignal(bytes)
+    signal_movie_search_result = pyqtSignal(list)
 
     settings = QSettings("data/settings.ini", QSettings.IniFormat)
 
@@ -134,3 +135,9 @@ class CoreWorker(QObject):
     def set_breaker(self, name):
         if name == 'parse_video':
             self.breaker_parse_video = True
+
+    @pyqtSlot(str)
+    def search_movie_name(self, name):
+        if name:
+            result = self.db_helper.search_movie_by_name(name)
+            self.signal_movie_search_result.emit(result)

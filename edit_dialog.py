@@ -74,12 +74,18 @@ class EditDialog(QDialog, data.design_dialog_edit.Ui_Dialog):
         self.movie.poster = image
         self.movie.show_poster(self.label_poster)
 
+    @pyqtSlot(tuple)
+    def receive_movie(self, data):
+        self.movie = CatMovie(data)
+        self.movie.fill_widget(self)
+
 
     def prepare(self, movie: CatMovie = None, file: CatFile = None):
         if movie is None:
             self.movie = CatMovie()
         else:
             self.movie = movie
+            self.comboBox_movie_name.skip_next_complete = True
             self.movie.fill_widget(self)
 
         if file is None:
