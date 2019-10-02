@@ -201,7 +201,7 @@ class DBHelper:
     def search_movie_by_name(self, name):
         try:
             c = self.conn.cursor()
-            c.execute("SELECT * FROM movies WHERE name=?", [name,])
+            c.execute("SELECT * FROM movies WHERE (name IS NOT NULL AND name=?) OR (name IS NULL AND orig_name=?)", [name, name])
             result = c.fetchall()
             return result
         except sqlite3.Error as e:

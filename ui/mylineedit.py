@@ -56,7 +56,7 @@ class ExtendedLineEdit(QLineEdit):
 
         for item in result:
             cwidget = MyWidget()
-            cwidget.label.setText(item[1])
+            cwidget.label.setText(item[1] if item[1] else item[2])
             cwidget.label_2.setText(item[2])
 
             completer_myQListWidgetItem = QListWidgetItem(self.completer_lw)
