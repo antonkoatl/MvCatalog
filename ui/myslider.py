@@ -20,4 +20,4 @@ class MySlider(QSlider):
         if event.type() in (QEvent.MouseButtonPress, QEvent.MouseButtonDblClick):
             if event.button() == Qt.LeftButton:
                 return True
-        return super(QSlider, self).eventFilter(obj, event)
+        return super(MySlider, self).eventFilter(obj, event)

@@ -81,12 +81,15 @@ class EditDialog(QDialog, data.design_dialog_edit.Ui_Dialog):
 
 
     def prepare(self, movie: CatMovie = None, file: CatFile = None):
+        self.set_loading(False)
+        self.progressBar.setValue(0)
+        self.lineEdit_movie_name.reset()
+
         if movie is None:
             self.movie = CatMovie()
             self.movie.fill_widget(self)
         else:
             self.movie = movie
-            self.comboBox_movie_name.skip_next_complete = True
             self.movie.fill_widget(self)
 
         if file is None:
@@ -95,9 +98,6 @@ class EditDialog(QDialog, data.design_dialog_edit.Ui_Dialog):
         else:
             self.file = file
             self.file.fill_widget(self)
-
-        self.set_loading(False)
-        self.progressBar.setValue(0)
 
     def set_loading(self, loading):
         self.loading = loading

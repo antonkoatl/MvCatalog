@@ -55,15 +55,15 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
         self.edit_dialog.signal_parse_video.connect(self.core_worker.parse_video_file)
         self.edit_dialog.label_poster.signal_load_poster.connect(self.core_worker.load_poster)
         self.edit_dialog.signal_send_breaker.connect(self.core_worker.set_breaker)
-        self.edit_dialog.comboBox_movie_name.lineEdit().textEdited.connect(self.core_worker.search_movie_name)
-        self.edit_dialog.comboBox_movie_name.signal_send_movie.connect(self.edit_dialog.receive_movie)
+        self.edit_dialog.lineEdit_movie_name.signal_search_movie.connect(self.core_worker.search_movie_name)
+        self.edit_dialog.lineEdit_movie_name.signal_send_movie.connect(self.edit_dialog.receive_movie)
         self.core_worker.signal_update_db_result.connect(self.edit_dialog.update_db_result)
         self.core_worker.signal_send_file_to_editdialog.connect(self.edit_dialog.receive_file)
         self.core_worker.signal_send_frames_to_editdialog.connect(self.edit_dialog.receive_frames)
         self.core_worker.signal_update_progress_bar.connect(self.edit_dialog.progressBar.setValue)
         self.core_worker.signal_send_open_db_result.connect(self.open_db_listener)
         self.core_worker.signal_update_poster_label.connect(self.edit_dialog.update_poster)
-        self.core_worker.signal_movie_search_result.connect(self.edit_dialog.comboBox_movie_name.update_movies_list)
+        self.core_worker.signal_movie_search_result.connect(self.edit_dialog.lineEdit_movie_name.update_movies_list)
 
         self.listWidget.itemClicked.connect(self.list_item_clicked)
         self.listWidget.clear()
@@ -100,10 +100,10 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
         movie: CatMovie
         file: CatFile
         for movie, file in data[:-1]:
-            self.listWidget.addItem(movie.name)
+            self.listWidget.addItem(movie.name, )
 
         if (self.list_continues):
-            self.listWidget.addItem("More...")
+            self.listWidget.addItem("More...", )
 
         if self.current_item_index != -1:
             self.listWidget.setCurrentRow(self.current_item_index)
@@ -121,10 +121,10 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
 
         for item in data[:-1]:
             if item == None: break
-            self.listWidget.addItem(item[0].name)
+            self.listWidget.addItem(item[0].name, )
 
         if (self.list_continues):
-            self.listWidget.addItem("More...")
+            self.listWidget.addItem("More...", )
 
     @pyqtSlot(int)
     def open_db_listener(self, int):

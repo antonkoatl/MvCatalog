@@ -120,12 +120,9 @@ class Ui_Dialog(object):
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_3.setSpacing(6)
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
-        self.comboBox_movie_name = ExtendedComboBox(Dialog)
-        self.comboBox_movie_name.setEditable(True)
-        self.comboBox_movie_name.setInsertPolicy(QtWidgets.QComboBox.NoInsert)
-        self.comboBox_movie_name.setFrame(True)
-        self.comboBox_movie_name.setObjectName("comboBox_movie_name")
-        self.horizontalLayout_3.addWidget(self.comboBox_movie_name)
+        self.lineEdit_movie_name = ExtendedLineEdit(Dialog)
+        self.lineEdit_movie_name.setObjectName("lineEdit_movie_name")
+        self.horizontalLayout_3.addWidget(self.lineEdit_movie_name)
         self.gridLayout_3.addLayout(self.horizontalLayout_3, 0, 1, 1, 1)
         self.lineEdit_year = QtWidgets.QLineEdit(Dialog)
         self.lineEdit_year.setObjectName("lineEdit_year")
@@ -256,7 +253,6 @@ class Ui_Dialog(object):
         self.lineEdit_actors.setText(_translate("Dialog", "test"))
         self.lineEdit_movie_length.setText(_translate("Dialog", "100"))
         self.textEdit_description.setPlaceholderText(_translate("Dialog", "test"))
-        self.comboBox_movie_name.setCurrentText(_translate("Dialog", "test"))
         self.lineEdit_year.setText(_translate("Dialog", "2019"))
         self.label_6.setText(_translate("Dialog", "Длительность, мин."))
         self.label_5.setText(_translate("Dialog", "Жанр"))
@@ -280,7 +276,7 @@ class Ui_Dialog(object):
         self.label_18.setText(_translate("Dialog", "Длительность"))
         self.lineEdit_audio.setText(_translate("Dialog", "Русский"))
         self.label_20.setText(_translate("Dialog", "Субтитры"))
-from ui.mycombobox import ExtendedComboBox
+from ui.mylineedit import ExtendedLineEdit
 from ui.myslider import MySlider
 from ui.posterlabel import PosterLabel
 import resource_rc

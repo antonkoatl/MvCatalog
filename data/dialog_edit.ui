@@ -245,20 +245,7 @@
         <number>6</number>
        </property>
        <item>
-        <widget class="ExtendedComboBox" name="comboBox_movie_name">
-         <property name="editable">
-          <bool>true</bool>
-         </property>
-         <property name="currentText">
-          <string>test</string>
-         </property>
-         <property name="insertPolicy">
-          <enum>QComboBox::NoInsert</enum>
-         </property>
-         <property name="frame">
-          <bool>true</bool>
-         </property>
-        </widget>
+        <widget class="ExtendedLineEdit" name="lineEdit_movie_name"/>
        </item>
       </layout>
      </item>
@@ -513,9 +500,9 @@
    <header>ui/posterlabel.h</header>
   </customwidget>
   <customwidget>
-   <class>ExtendedComboBox</class>
-   <extends>QComboBox</extends>
-   <header>ui/mycombobox.h</header>
+   <class>ExtendedLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>ui/mylineedit.h</header>
   </customwidget>
  </customwidgets>
  <resources>
