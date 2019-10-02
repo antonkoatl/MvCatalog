@@ -83,6 +83,7 @@ class EditDialog(QDialog, data.design_dialog_edit.Ui_Dialog):
     def prepare(self, movie: CatMovie = None, file: CatFile = None):
         if movie is None:
             self.movie = CatMovie()
+            self.movie.fill_widget(self)
         else:
             self.movie = movie
             self.comboBox_movie_name.skip_next_complete = True
@@ -90,6 +91,7 @@ class EditDialog(QDialog, data.design_dialog_edit.Ui_Dialog):
 
         if file is None:
             self.file = CatFile()
+            self.file.fill_widget(self)
         else:
             self.file = file
             self.file.fill_widget(self)
