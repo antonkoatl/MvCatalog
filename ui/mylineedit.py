@@ -11,8 +11,12 @@ class MyWidget(QWidget, data.listitem_search.Ui_Form):
         self.setupUi(self)
 
 class ExtendedLineEdit(QLineEdit):
-    signal_send_movie = pyqtSignal(tuple)
+    signal_send_movie = pyqtSignal(list)
     signal_search_movie = pyqtSignal(str)
+    signal_request_movie_data = pyqtSignal(int)
+    signal_set_loading = pyqtSignal(str, bool)
+
+    DEBUG = False
 
     def __init__(self, parent=None):
         super(ExtendedLineEdit, self).__init__(parent)
@@ -31,7 +35,8 @@ class ExtendedLineEdit(QLineEdit):
         self.setCompleter(self.completer)
 
         self.textEdited.connect(self.text_edited)
-        self.completer.activated[QModelIndex].connect(self.on_completer_activated)
+        #self.completer.activated[QModelIndex].connect(self.on_completer_activated)
+        self.completer_lw.itemClicked.connect(self.item_clicked)
 
         self.installEventFilter(self)
 
@@ -43,21 +48,31 @@ class ExtendedLineEdit(QLineEdit):
 
     def setText(self, text: str) -> None:
         super(ExtendedLineEdit, self).setText(text)
-        if not isinstance(self.sender(), QCompleter):
+        if not isinstance(self.sender(), QCompleter) and text:
             self.skip_next_complete = True
             self.text_edited(text)
 
     @pyqtSlot(list)
     def update_movies_list(self, result):
-        self.movies = result
+        if self.DEBUG: print('update_movies_list', result)
+        type = result.pop(0)
 
-        self.completer_lw.clear()
-        self.model.setStringList([i[1] for i in result])
+
+        if type == 'db':
+            self.movies = [x + [type, ] for x in result]
+            self.completer_lw.clear()
+            self.model.setStringList([item[1] for item in result])
+        else:
+            for item in result:
+                self.movies.append(item + [type,])
+                if self.model.insertRow(self.model.rowCount()):
+                    index = self.model.index(self.model.rowCount() - 1, 0)
+                    self.model.setData(index, item[1])
 
         for item in result:
             cwidget = MyWidget()
             cwidget.label.setText(item[1] if item[1] else item[2])
-            cwidget.label_2.setText(item[2])
+            cwidget.label_2.setText(item[2] + ' (' + type + ')')
 
             completer_myQListWidgetItem = QListWidgetItem(self.completer_lw)
             self.completer_lw.addItem(completer_myQListWidgetItem)
@@ -70,18 +85,39 @@ class ExtendedLineEdit(QLineEdit):
 
     @pyqtSlot(str)
     def text_edited(self, text):
-        if text:
+        if self.DEBUG: print('text_edited', text, self.sender())
+        if text and isinstance(self.sender(), ExtendedLineEdit):
             self.signal_search_movie.emit(text)
 
     @pyqtSlot(QModelIndex)
     def on_completer_activated(self, index: QModelIndex):
-        self.signal_send_movie.emit(self.movies[index.row()])
+        if self.DEBUG: print('on_completer_activated', index.row())
+        item = self.movies[index.row()]
+
+        if len(item) > 13:
+            self.signal_send_movie.emit(item[:13])
+            self.signal_request_movie_data.emit(item[13])
+        else:
+            self.signal_send_movie.emit(item)
 
     @pyqtSlot(QListWidgetItem)
     def item_clicked(self, item: QListWidgetItem):
+        if self.DEBUG: print('item_clicked', item)
         index = self.completer_lw.indexFromItem(item)
-        self.signal_send_movie.emit(self.movies[index.row()])
+        item = self.movies[index.row()]
+        type = item[-1]
+
+        if type == 'db':
+            self.signal_send_movie.emit(item)
+        else:
+            self.signal_set_loading.emit('movie', True)
+
+            if len(item) > 13:
+                self.signal_send_movie.emit(item[:13])
+                self.signal_request_movie_data.emit(item[13])
+            else:
+                self.signal_send_movie.emit(item)
 
     def reset(self):
         self.completer_lw.clear()
-        self.completer.activated[QModelIndex].connect(self.on_completer_activated)
+        #self.completer.activated[QModelIndex].connect(self.on_completer_activated)

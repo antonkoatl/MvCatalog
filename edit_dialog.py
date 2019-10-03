@@ -15,6 +15,8 @@ class EditDialog(QDialog, data.design_dialog_edit.Ui_Dialog):
     signal_parse_video = pyqtSignal(str)
     signal_send_breaker = pyqtSignal(str)
 
+    DEBUG = False
+
     def __init__(self, parent=None):
         super(EditDialog, self).__init__(parent)
         self.setupUi(self)
@@ -74,14 +76,15 @@ class EditDialog(QDialog, data.design_dialog_edit.Ui_Dialog):
         self.movie.poster = image
         self.movie.show_poster(self.label_poster)
 
-    @pyqtSlot(tuple)
+    @pyqtSlot(list)
     def receive_movie(self, data):
+        if self.DEBUG: print('receive_movie', data)
         self.movie = CatMovie(data)
         self.movie.fill_widget(self)
 
-
     def prepare(self, movie: CatMovie = None, file: CatFile = None):
-        self.set_loading(False)
+        self.set_loading('frames', False)
+        self.set_loading('poster', False)
         self.progressBar.setValue(0)
         self.lineEdit_movie_name.reset()
 
@@ -99,13 +102,34 @@ class EditDialog(QDialog, data.design_dialog_edit.Ui_Dialog):
             self.file = file
             self.file.fill_widget(self)
 
-    def set_loading(self, loading):
-        self.loading = loading
-        if loading:
-            self.label_loading.setMovie(self.loader_movie)
-            self.loader_movie.start()
-            self.pushButton_save.setEnabled(False)
-        else:
-            self.label_loading.clear()
-            self.loader_movie.stop()
-            self.pushButton_save.setEnabled(True)
+    @pyqtSlot(str, bool)
+    def set_loading(self, type, loading):
+        if self.DEBUG: print('set_loading', type, loading)
+        if type == 'frames':
+            self.loading = loading
+            if loading:
+                self.label_loading.setMovie(self.loader_movie)
+                self.loader_movie.start()
+                self.pushButton_save.setEnabled(False)
+            else:
+                self.label_loading.clear()
+                self.loader_movie.stop()
+                self.pushButton_save.setEnabled(True)
+
+        if type == 'movie':
+            if loading:
+                self.label_loading.setMovie(self.loader_movie)
+                self.loader_movie.start()
+                self.pushButton_save.setEnabled(False)
+            else:
+                self.label_loading.clear()
+                self.loader_movie.stop()
+                self.pushButton_save.setEnabled(True)
+
+        if type == 'poster':
+            if loading:
+                self.label_poster.setMovie(self.loader_movie)
+                self.loader_movie.start()
+            else:
+                self.label_poster.clear()
+                self.loader_movie.stop()

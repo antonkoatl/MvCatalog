@@ -57,6 +57,8 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
         self.edit_dialog.signal_send_breaker.connect(self.core_worker.set_breaker)
         self.edit_dialog.lineEdit_movie_name.signal_search_movie.connect(self.core_worker.search_movie_name)
         self.edit_dialog.lineEdit_movie_name.signal_send_movie.connect(self.edit_dialog.receive_movie)
+        self.edit_dialog.lineEdit_movie_name.signal_request_movie_data.connect(self.core_worker.get_movie_data_from_kinopoisk)
+        self.edit_dialog.lineEdit_movie_name.signal_set_loading.connect(self.edit_dialog.set_loading)
         self.core_worker.signal_update_db_result.connect(self.edit_dialog.update_db_result)
         self.core_worker.signal_send_file_to_editdialog.connect(self.edit_dialog.receive_file)
         self.core_worker.signal_send_frames_to_editdialog.connect(self.edit_dialog.receive_frames)
@@ -64,6 +66,8 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
         self.core_worker.signal_send_open_db_result.connect(self.open_db_listener)
         self.core_worker.signal_update_poster_label.connect(self.edit_dialog.update_poster)
         self.core_worker.signal_movie_search_result.connect(self.edit_dialog.lineEdit_movie_name.update_movies_list)
+        self.core_worker.signal_send_movie_to_editdialog.connect(self.edit_dialog.receive_movie)
+        self.core_worker.signal_set_loading.connect(self.edit_dialog.set_loading)
 
         self.listWidget.itemClicked.connect(self.list_item_clicked)
         self.listWidget.clear()
