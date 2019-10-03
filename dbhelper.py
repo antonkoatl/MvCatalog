@@ -182,6 +182,29 @@ class DBHelper:
             print(e)
 
     def update_file(self, file):
+        if file.id is not None:
+            try:
+                c = self.conn.cursor()
+                c.execute("UPDATE files "
+                          "SET movie_id=?,"
+                          "name=?,"
+                          "size=?,"
+                          "resolution=?,"
+                          "codec=?,"
+                          "bitrate=?,"
+                          "length=?,"
+                          "audio=?,"
+                          "subs=?,"
+                          "frames=?"
+                          "WHERE id=?", file.get_values_list()[1:] + [file.id, ])
+
+                self.conn.commit()
+            except sqlite3.IntegrityError as e:
+                return str(e)
+            except sqlite3.Error as e:
+                return str(e)
+
+            return None
         try:
             c = self.conn.cursor()
             c.execute("INSERT OR REPLACE INTO files VALUES (?,?,?,?,?,?,?,?,?,?,?)", file.get_values_list())

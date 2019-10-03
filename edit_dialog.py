@@ -42,7 +42,7 @@ class EditDialog(QDialog, data.design_dialog_edit.Ui_Dialog):
     def on_click_openfile(self):
         fname, _filter = QFileDialog.getOpenFileName(self, 'Open file', filter='Video (*.mkv .avi .mp4 .webm)')
         if fname:
-            self.set_loading(True)
+            self.set_loading('frames', True)
             self.progressBar.setMaximum(20-1)
             self.signal_parse_video.emit(fname)
 
@@ -59,7 +59,7 @@ class EditDialog(QDialog, data.design_dialog_edit.Ui_Dialog):
 
     @pyqtSlot(CatFile)
     def receive_file(self, file: CatFile):
-        self.file = file
+        self.file.set_data(file)
         self.file.fill_widget(self)
 
     @pyqtSlot(list)
@@ -68,7 +68,7 @@ class EditDialog(QDialog, data.design_dialog_edit.Ui_Dialog):
 
         self.horizontalSlider.setMaximum(len(self.file.frames) - 1)
         self.file.show_frame(self.label_frames, 0)
-        self.set_loading(False)
+        self.set_loading('frames', False)
 
     @pyqtSlot(bytes)
     def update_poster(self, image):

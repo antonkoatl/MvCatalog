@@ -95,3 +95,16 @@ class CatFile:
 
     def get_frames_from_blob(self, data):
         return [] if data is None else pickle.loads(data)
+
+    def set_data(self, file):
+        if file is None: return
+        if self.movie_id == -1: self.movie_id = file.movie_id
+        self.name = file.name
+        self.size = file.size
+        self.resolution = file.resolution
+        self.codec = file.codec
+        self.bitrate = file.bitrate
+        self.length = file.length
+        self.audio = file.audio
+        self.subtitles = file.subtitles
+        self.frames = file.frames

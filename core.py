@@ -65,7 +65,7 @@ class PosterWorker(QRunnable):
 
 
 class CoreWorker(QObject):
-    DEBUG = False
+    DEBUG = True
 
     signal_add_items_to_list = pyqtSignal(list)
     signal_fill_items_to_list = pyqtSignal(list)
@@ -101,6 +101,7 @@ class CoreWorker(QObject):
 
     @pyqtSlot(str)
     def request_list_data(self, command):
+        self.debug('request_list_data', command)
         if command == 'start_list':
             db_data = self.db_helper.get_list_data(True)
             list_data = [[CatMovie(item), CatFile(item)] if item is not None else None for item in db_data]
@@ -243,7 +244,7 @@ class CoreWorker(QObject):
             item.get_content = types.MethodType(replace_get_content, item)
             item.get_content('main_page')
 
-            movie = [-1, item.title, item.title_en, item.year, ','.join(item.countries), ','.join(item.genres), item.runtime if isinstance(item.runtime, int) else 0, '',
+            movie = [None, item.title, item.title_en, item.year, ','.join(item.countries), ','.join(item.genres), item.runtime if isinstance(item.runtime, int) else 0, '',
                            ', '.join([person.name_en if len(person.name_en) > 0 else person.name for person in item.directors]),
                            ', '.join([person.name_en if len(person.name_en) > 0 else person.name for person in item.screenwriters]),
                            ', '.join([person.name_en if len(person.name_en) > 0 else person.name for person in item.actors]),
@@ -282,7 +283,7 @@ class CoreWorker(QObject):
                 result = self.movie_data_cache[self.movie_search_name]
             else:
                 movie_list = Movie.objects.search(self.movie_search_name)
-                result = [[-1, item.title, item.title_en, item.year, ','.join(item.countries), ','.join(item.genres),
+                result = [[None, item.title, item.title_en, item.year, ','.join(item.countries), ','.join(item.genres),
                            item.runtime if isinstance(item.runtime, int) else 0, '',
                            ','.join([person.name_en if len(person.name_en) > 0 else person.name for person in item.directors]),
                            ','.join([person.name_en if len(person.name_en) > 0 else person.name for person in item.screenwriters]),

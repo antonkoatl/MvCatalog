@@ -16,12 +16,13 @@ class ExtendedLineEdit(QLineEdit):
     signal_request_movie_data = pyqtSignal(int)
     signal_set_loading = pyqtSignal(str, bool)
 
-    DEBUG = False
+    DEBUG = True
 
     def __init__(self, parent=None):
         super(ExtendedLineEdit, self).__init__(parent)
         self.movies = []
         self.skip_next_complete = False
+        self.skip_next_complete_not_db = False
 
         self.completer_lw = QListWidget()
 
@@ -71,17 +72,28 @@ class ExtendedLineEdit(QLineEdit):
 
         for item in result:
             cwidget = MyWidget()
-            cwidget.label.setText(item[1] if item[1] else item[2])
-            cwidget.label_2.setText(item[2] + ' (' + type + ')')
+            cwidget.label_movie_name.setText(item[1] if item[1] else item[2])
+            cwidget.label_original_name.setText(item[2])
+            cwidget.label_source.setText(type)
+            cwidget.label_year.setText(str(item[3]))
 
             completer_myQListWidgetItem = QListWidgetItem(self.completer_lw)
+            completer_myQListWidgetItem.setSizeHint(cwidget.sizeHint())
             self.completer_lw.addItem(completer_myQListWidgetItem)
             self.completer_lw.setItemWidget(completer_myQListWidgetItem, cwidget)
 
         if self.skip_next_complete:
+            if type == 'db':
+                self.skip_next_complete_not_db = True
             self.skip_next_complete = False
         else:
-            self.completer.complete()
+            if type == 'db':
+                self.completer.complete()
+            else:
+                if self.skip_next_complete_not_db:
+                    self.skip_next_complete_not_db = False
+                else:
+                    self.completer.complete()
 
     @pyqtSlot(str)
     def text_edited(self, text):
@@ -102,7 +114,7 @@ class ExtendedLineEdit(QLineEdit):
 
     @pyqtSlot(QListWidgetItem)
     def item_clicked(self, item: QListWidgetItem):
-        if self.DEBUG: print('item_clicked', item)
+        if self.DEBUG: print('item_clicked', item, [i[1] for i in self.movies])
         index = self.completer_lw.indexFromItem(item)
         item = self.movies[index.row()]
         type = item[-1]
