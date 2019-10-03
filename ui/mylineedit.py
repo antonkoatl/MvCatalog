@@ -16,7 +16,7 @@ class ExtendedLineEdit(QLineEdit):
     signal_request_movie_data = pyqtSignal(int)
     signal_set_loading = pyqtSignal(str, bool)
 
-    DEBUG = True
+    DEBUG = False
 
     def __init__(self, parent=None):
         super(ExtendedLineEdit, self).__init__(parent)

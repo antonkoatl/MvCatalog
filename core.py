@@ -65,7 +65,7 @@ class PosterWorker(QRunnable):
 
 
 class CoreWorker(QObject):
-    DEBUG = True
+    DEBUG = False
 
     signal_add_items_to_list = pyqtSignal(list)
     signal_fill_items_to_list = pyqtSignal(list)

@@ -9,7 +9,7 @@ class PosterLabel(QLabel):
     def mousePressEvent(self, ev: QtGui.QMouseEvent) -> None:
         super(PosterLabel, self).mousePressEvent(ev)
         if (ev.button() == Qt.LeftButton):
-            fname, _filter = QFileDialog.getOpenFileName(self, 'Open file', filter='Images (*.png .jpg)')
+            fname, _filter = QFileDialog.getOpenFileName(self, 'Open file', filter='Images (*.png *.jpg)')
             if fname:
                 self.signal_load_poster.emit(fname)
 

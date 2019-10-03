@@ -40,7 +40,7 @@ class EditDialog(QDialog, data.design_dialog_edit.Ui_Dialog):
 
     @pyqtSlot()
     def on_click_openfile(self):
-        fname, _filter = QFileDialog.getOpenFileName(self, 'Open file', filter='Video (*.mkv .avi .mp4 .webm)')
+        fname, _filter = QFileDialog.getOpenFileName(self, 'Open file', filter='Video (*.mkv *.avi *.mp4 *.webm)')
         if fname:
             self.set_loading('frames', True)
             self.progressBar.setMaximum(20-1)
@@ -79,7 +79,7 @@ class EditDialog(QDialog, data.design_dialog_edit.Ui_Dialog):
     @pyqtSlot(list)
     def receive_movie(self, data):
         if self.DEBUG: print('receive_movie', data)
-        self.movie = CatMovie(data)
+        self.movie.set_data(CatMovie(data))
         self.movie.fill_widget(self)
 
     def prepare(self, movie: CatMovie = None, file: CatFile = None):

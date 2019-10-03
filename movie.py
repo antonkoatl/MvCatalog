@@ -126,3 +126,18 @@ class CatMovie:
 
     def __str__(self):
         return self.name + " (" + self.orig_name + ")"
+
+    def set_data(self, movie):
+        if movie is None: return
+        self.name = movie.name if movie.name is not None else movie.original_name
+        self.orig_name = movie.orig_name
+        self.year = movie.year
+        self.country = movie.country
+        self.genre = movie.genre
+        self.length = movie.length
+        self.rating = movie.rating
+        self.director = movie.director
+        self.script = movie.script
+        self.actors = movie.actors
+        self.description = movie.description
+        self.poster = movie.poster
