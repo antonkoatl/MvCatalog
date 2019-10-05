@@ -226,6 +226,6 @@ class DBHelper:
             c = self.conn.cursor()
             c.execute("SELECT * FROM movies WHERE (name IS NOT NULL AND name=?) OR (name IS NULL AND orig_name=?)", [name, name])
             result = c.fetchall()
-            return result
+            return [list(x) for x in result]
         except sqlite3.Error as e:
             print(e)

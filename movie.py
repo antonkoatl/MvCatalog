@@ -86,8 +86,6 @@ class CatMovie:
             self.show_poster(widget.label_poster)
 
             widget.lineEdit_movie_name.setText(self.name)
-            widget.lineEdit_movie_name.skip_next_complete = True
-            widget.lineEdit_movie_name.signal_search_movie.emit(self.name)
             widget.lineEdit_orig_name.setText(self.orig_name)
             widget.lineEdit_year.setText(str(self.year))
             widget.lineEdit_country.setText(self.country)

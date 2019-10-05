@@ -84,8 +84,8 @@ class CoreWorker(QObject):
     settings = QSettings("data/settings.ini", QSettings.IniFormat)
 
     breaker_parse_video = False
-    movie_search_name = ''
-    poster_waiting_id = -1
+    movie_search_name = None
+    poster_waiting_id = None
 
     movie_search_cache = {}
     movie_data_cache = {}
@@ -192,8 +192,8 @@ class CoreWorker(QObject):
 
     @pyqtSlot(str)
     def load_poster(self, fname):
-        if self.poster_waiting_id != -1:
-            self.poster_waiting = -1
+        if self.poster_waiting_id is not None:
+            self.poster_waiting_id = None
             self.signal_set_loading.emit('poster', False)
 
         if fname:
@@ -206,15 +206,17 @@ class CoreWorker(QObject):
 
     @pyqtSlot(str)
     def set_breaker(self, name):
-        if name == 'parse_video':
+        if name == 'edit_dialog':
             self.breaker_parse_video = True
+            self.search_movie_name = None
+            self.poster_waiting_id = None
 
     @pyqtSlot(str)
     def search_movie_name(self, name):
         self.debug('search_movie_name', name)
 
         if name:
-            result = [list(x) for x in self.db_helper.search_movie_by_name(name)]
+            result = self.db_helper.search_movie_by_name(name)
             self.signal_movie_search_result.emit(['db',] + result)
 
             self.movie_search_name = name
@@ -275,10 +277,12 @@ class CoreWorker(QObject):
     @pyqtSlot()
     def kinopoisk_parser(self):
         self.debug('kinopoisk_parser', self.movie_search_name)
+        import time
+        time.sleep(0.5)
 
         QApplication.processEvents()
-        if self.movie_search_name:
-            result = None
+        if self.movie_search_name is not None:
+
             if self.movie_search_name in self.movie_search_cache:
                 result = self.movie_data_cache[self.movie_search_name]
             else:
@@ -291,8 +295,10 @@ class CoreWorker(QObject):
                            item.plot, self.posters[0] if len(item.posters) > 0 else None, item.id]
                           for item in movie_list]
 
-            self.signal_movie_search_result.emit(['kinopoisk',] + result)
-            self.movie_search_name = ''
+            QApplication.processEvents()
+            if self.movie_search_name is not None:
+                self.signal_movie_search_result.emit(['kinopoisk',] + result)
+            self.movie_search_name = None
 
     @pyqtSlot(int)
     def set_poster_waiting_id(self, id):
@@ -314,7 +320,8 @@ class CoreWorker(QObject):
                 QThreadPool.globalInstance().start(worker)
 
             else:
-                if self.poster_waiting: self.signal_send_movie_to_editdialog.emit(tuple(movie))
+                if self.poster_waiting_id is not None:
+                    self.signal_send_movie_to_editdialog.emit(movie)
 
     @pyqtSlot(bytes, int)
     def poster_result(self, image, id):

@@ -29,7 +29,7 @@ class EditDialog(QDialog, data.design_dialog_edit.Ui_Dialog):
         self.label_loading.setMovie(self.loader_movie)
 
     def closeEvent(self, event):
-        self.signal_send_breaker.emit('parse_video')
+        self.signal_send_breaker.emit('edit_dialog')
 
 
     @pyqtSlot()
@@ -94,6 +94,7 @@ class EditDialog(QDialog, data.design_dialog_edit.Ui_Dialog):
         else:
             self.movie = movie
             self.movie.fill_widget(self)
+            self.lineEdit_movie_name.signal_search_movie.emit(self.movie.name)
 
         if file is None:
             self.file = CatFile()

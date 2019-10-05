@@ -21,22 +21,18 @@ class ExtendedLineEdit(QLineEdit):
     def __init__(self, parent=None):
         super(ExtendedLineEdit, self).__init__(parent)
         self.movies = []
-        self.skip_next_complete = False
-        self.skip_next_complete_not_db = False
 
         self.completer_lw = QListWidget()
+        self.model = self.completer_lw.model()
 
-        self.model = QStringListModel(self)
-
-        # add a completer, which uses the filter model
         self.completer = QCompleter(self.model, self)
         self.completer.setPopup(self.completer_lw)
-        # always show all (filtered) completions
-        self.completer.setCompletionMode(QCompleter.UnfilteredPopupCompletion)
+        self.completer.setCompletionRole(Qt.UserRole) # Change role because default EditRole is paited to list somehow
         self.setCompleter(self.completer)
 
         self.textEdited.connect(self.text_edited)
         #self.completer.activated[QModelIndex].connect(self.on_completer_activated)
+        #self.completer.activated[str].connect(self.on_completer_activated_str)
         self.completer_lw.itemClicked.connect(self.item_clicked)
 
         self.installEventFilter(self)
@@ -55,20 +51,16 @@ class ExtendedLineEdit(QLineEdit):
 
     @pyqtSlot(list)
     def update_movies_list(self, result):
-        if self.DEBUG: print('update_movies_list', result)
+        if self.DEBUG: print('update_movies_list', result[0], len(result) - 1)
         type = result.pop(0)
-
 
         if type == 'db':
             self.movies = [x + [type, ] for x in result]
             self.completer_lw.clear()
-            self.model.setStringList([item[1] for item in result])
+            self.completer.complete()
         else:
             for item in result:
                 self.movies.append(item + [type,])
-                if self.model.insertRow(self.model.rowCount()):
-                    index = self.model.index(self.model.rowCount() - 1, 0)
-                    self.model.setData(index, item[1])
 
         for item in result:
             cwidget = MyWidget()
@@ -79,27 +71,22 @@ class ExtendedLineEdit(QLineEdit):
 
             completer_myQListWidgetItem = QListWidgetItem(self.completer_lw)
             completer_myQListWidgetItem.setSizeHint(cwidget.sizeHint())
+            completer_myQListWidgetItem.setData(Qt.UserRole, item[1])
             self.completer_lw.addItem(completer_myQListWidgetItem)
             self.completer_lw.setItemWidget(completer_myQListWidgetItem, cwidget)
 
-        if self.skip_next_complete:
-            if type == 'db':
-                self.skip_next_complete_not_db = True
-            self.skip_next_complete = False
-        else:
-            if type == 'db':
-                self.completer.complete()
-            else:
-                if self.skip_next_complete_not_db:
-                    self.skip_next_complete_not_db = False
-                else:
-                    self.completer.complete()
+        if self.hasFocus() and not self.completer_lw.isVisible() and len(self.movies) > 0:
+            self.completer.complete()
 
     @pyqtSlot(str)
     def text_edited(self, text):
         if self.DEBUG: print('text_edited', text, self.sender())
         if text and isinstance(self.sender(), ExtendedLineEdit):
             self.signal_search_movie.emit(text)
+
+    @pyqtSlot(str)
+    def on_completer_activated_str(self, name: str):
+        if self.DEBUG: print('on_completer_activated_str', name)
 
     @pyqtSlot(QModelIndex)
     def on_completer_activated(self, index: QModelIndex):
@@ -132,4 +119,5 @@ class ExtendedLineEdit(QLineEdit):
 
     def reset(self):
         self.completer_lw.clear()
+        self.clearFocus()
         #self.completer.activated[QModelIndex].connect(self.on_completer_activated)
