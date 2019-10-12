@@ -29,13 +29,15 @@ class EditDialog(QDialog, data.design_dialog_edit.Ui_Dialog):
         self.label_loading.setMovie(self.loader_movie)
 
     def closeEvent(self, event):
+        self.movie = None
+        self.file = None
         self.signal_send_breaker.emit('edit_dialog')
 
 
     @pyqtSlot()
     def on_click_save(self):
-        self.movie.load_from_widget(self)
-        self.file.load_from_widget(self)
+        #self.movie.load_from_widget(self)
+        #self.file.load_from_widget(self)
         self.signal_db_updater.emit(self.movie, self.file)
 
     @pyqtSlot()
@@ -64,17 +66,19 @@ class EditDialog(QDialog, data.design_dialog_edit.Ui_Dialog):
 
     @pyqtSlot(list)
     def receive_frames(self, frames):
-        self.file.frames = frames
+        if self.file is not None:
+            self.file.frames = frames
 
-        self.horizontalSlider.setMaximum(len(self.file.frames) - 1)
-        self.file.show_frame(self.label_frames, 0)
-        self.set_loading('frames', False)
+            self.horizontalSlider.setMaximum(len(self.file.frames) - 1)
+            self.file.show_frame(self.label_frames, 0)
+            self.set_loading('frames', False)
 
     @pyqtSlot(bytes)
     def update_poster(self, image):
         if not image: image = None
-        self.movie.poster = image
-        self.movie.show_poster(self.label_poster)
+        if not self.movie is None:
+            self.movie.poster = image
+            self.movie.show_poster(self.label_poster)
 
     @pyqtSlot(list)
     def receive_movie(self, data):
@@ -92,7 +96,8 @@ class EditDialog(QDialog, data.design_dialog_edit.Ui_Dialog):
             self.movie = CatMovie()
             self.movie.fill_widget(self)
         else:
-            self.movie = movie
+            self.movie = CatMovie().set_data(movie)
+            self.movie.id = movie.id
             self.movie.fill_widget(self)
             self.lineEdit_movie_name.signal_search_movie.emit(self.movie.name)
 
@@ -100,7 +105,8 @@ class EditDialog(QDialog, data.design_dialog_edit.Ui_Dialog):
             self.file = CatFile()
             self.file.fill_widget(self)
         else:
-            self.file = file
+            self.file = CatFile().set_data(file)
+            self.file.id = file.id
             self.file.fill_widget(self)
 
     @pyqtSlot(str, bool)

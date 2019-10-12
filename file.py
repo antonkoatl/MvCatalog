@@ -108,3 +108,4 @@ class CatFile:
         self.audio = file.audio
         self.subtitles = file.subtitles
         self.frames = file.frames
+        return self

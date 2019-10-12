@@ -139,3 +139,4 @@ class CatMovie:
         self.actors = movie.actors
         self.description = movie.description
         self.poster = movie.poster
+        return self
