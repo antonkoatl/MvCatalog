@@ -27,6 +27,7 @@ class ExtendedLineEdit(QLineEdit):
 
         self.completer = QCompleter(self.model, self)
         self.completer.setPopup(self.completer_lw)
+        self.completer.setCompletionMode(QCompleter.UnfilteredPopupCompletion)
         self.completer.setCompletionRole(Qt.UserRole) # Change role because default EditRole is paited to list somehow
         self.setCompleter(self.completer)
 
@@ -44,9 +45,9 @@ class ExtendedLineEdit(QLineEdit):
         return super(ExtendedLineEdit, self).eventFilter(obj, event)
 
     def setText(self, text: str) -> None:
+        if self.DEBUG: print('setText', text, self.sender())
         super(ExtendedLineEdit, self).setText(text)
         if not isinstance(self.sender(), QCompleter) and text:
-            self.skip_next_complete = True
             self.text_edited(text)
 
     @pyqtSlot(list)
@@ -118,6 +119,7 @@ class ExtendedLineEdit(QLineEdit):
                 self.signal_send_movie.emit(item)
 
     def reset(self):
+        if self.DEBUG: print('reset')
         self.completer_lw.clear()
         self.clearFocus()
         #self.completer.activated[QModelIndex].connect(self.on_completer_activated)

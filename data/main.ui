@@ -66,9 +66,9 @@
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>0</y>
+             <y>-73</y>
              <width>653</width>
-             <height>828</height>
+             <height>848</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -520,197 +520,7 @@
                 <property name="sizeConstraint">
                  <enum>QLayout::SetDefaultConstraint</enum>
                 </property>
-                <item row="4" column="1">
-                 <widget class="QLabel" name="label_bitrate">
-                  <property name="styleSheet">
-                   <string notr="true">background-color: rgb(255, 252, 252);</string>
-                  </property>
-                  <property name="text">
-                   <string>TextLabel</string>
-                  </property>
-                  <property name="wordWrap">
-                   <bool>true</bool>
-                  </property>
-                  <property name="textInteractionFlags">
-                   <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="1">
-                 <widget class="QLabel" name="label_resolution">
-                  <property name="styleSheet">
-                   <string notr="true">background-color: rgb(255, 252, 252);</string>
-                  </property>
-                  <property name="text">
-                   <string>TextLabel</string>
-                  </property>
-                  <property name="wordWrap">
-                   <bool>true</bool>
-                  </property>
-                  <property name="textInteractionFlags">
-                   <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="7" column="1">
-                 <widget class="QLabel" name="label_subs">
-                  <property name="styleSheet">
-                   <string notr="true">background-color: rgb(255, 252, 252);</string>
-                  </property>
-                  <property name="text">
-                   <string>TextLabel</string>
-                  </property>
-                  <property name="wordWrap">
-                   <bool>true</bool>
-                  </property>
-                  <property name="textInteractionFlags">
-                   <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="6" column="1">
-                 <widget class="QLabel" name="label_audio">
-                  <property name="styleSheet">
-                   <string notr="true">background-color: rgb(255, 252, 252);</string>
-                  </property>
-                  <property name="text">
-                   <string>TextLabel</string>
-                  </property>
-                  <property name="wordWrap">
-                   <bool>true</bool>
-                  </property>
-                  <property name="textInteractionFlags">
-                   <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="0">
-                 <widget class="QLabel" name="label_28">
-                  <property name="styleSheet">
-                   <string notr="true">background-color: rgb(255, 252, 252);</string>
-                  </property>
-                  <property name="text">
-                   <string>Видео кодек</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="5" column="1">
-                 <widget class="QLabel" name="label_file_length">
-                  <property name="styleSheet">
-                   <string notr="true">background-color: rgb(255, 252, 252);</string>
-                  </property>
-                  <property name="text">
-                   <string>TextLabel</string>
-                  </property>
-                  <property name="wordWrap">
-                   <bool>true</bool>
-                  </property>
-                  <property name="textInteractionFlags">
-                   <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="0">
-                 <widget class="QLabel" name="label_26">
-                  <property name="styleSheet">
-                   <string notr="true">background-color: rgb(255, 252, 252);</string>
-                  </property>
-                  <property name="text">
-                   <string>Разрешение</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="7" column="0">
-                 <widget class="QLabel" name="label_36">
-                  <property name="styleSheet">
-                   <string notr="true">background-color: rgb(255, 252, 252);</string>
-                  </property>
-                  <property name="text">
-                   <string>Субтитры</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="6" column="0">
-                 <widget class="QLabel" name="label_34">
-                  <property name="styleSheet">
-                   <string notr="true">background-color: rgb(255, 252, 252);</string>
-                  </property>
-                  <property name="text">
-                   <string>Аудио</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QLabel" name="label_size">
-                  <property name="styleSheet">
-                   <string notr="true">background-color: rgb(255, 252, 252);</string>
-                  </property>
-                  <property name="text">
-                   <string>TextLabel</string>
-                  </property>
-                  <property name="wordWrap">
-                   <bool>true</bool>
-                  </property>
-                  <property name="textInteractionFlags">
-                   <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
-                  </property>
-                 </widget>
-                </item>
                 <item row="5" column="0">
-                 <widget class="QLabel" name="label_32">
-                  <property name="styleSheet">
-                   <string notr="true">background-color: rgb(255, 252, 252);</string>
-                  </property>
-                  <property name="text">
-                   <string>Продолжительность</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_22">
-                  <property name="styleSheet">
-                   <string notr="true">background-color: rgb(255, 252, 252);</string>
-                  </property>
-                  <property name="text">
-                   <string>Размер</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="1">
-                 <widget class="QLabel" name="label_codec">
-                  <property name="styleSheet">
-                   <string notr="true">background-color: rgb(255, 252, 252);</string>
-                  </property>
-                  <property name="text">
-                   <string>TextLabel</string>
-                  </property>
-                  <property name="wordWrap">
-                   <bool>true</bool>
-                  </property>
-                  <property name="textInteractionFlags">
-                   <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
-                  </property>
-                 </widget>
-                </item>
-                <item row="4" column="0">
                  <widget class="QLabel" name="label_30">
                   <property name="styleSheet">
                    <string notr="true">background-color: rgb(255, 252, 252);</string>
@@ -730,6 +540,196 @@
                   </property>
                   <property name="text">
                    <string>Имя файла</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="7" column="1">
+                 <widget class="QLabel" name="label_audio">
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 252, 252);</string>
+                  </property>
+                  <property name="text">
+                   <string>TextLabel</string>
+                  </property>
+                  <property name="wordWrap">
+                   <bool>true</bool>
+                  </property>
+                  <property name="textInteractionFlags">
+                   <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="0">
+                 <widget class="QLabel" name="label_26">
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 252, 252);</string>
+                  </property>
+                  <property name="text">
+                   <string>Разрешение</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QLabel" name="label_22">
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 252, 252);</string>
+                  </property>
+                  <property name="text">
+                   <string>Размер</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="8" column="1">
+                 <widget class="QLabel" name="label_subs">
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 252, 252);</string>
+                  </property>
+                  <property name="text">
+                   <string>TextLabel</string>
+                  </property>
+                  <property name="wordWrap">
+                   <bool>true</bool>
+                  </property>
+                  <property name="textInteractionFlags">
+                   <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="1">
+                 <widget class="QLabel" name="label_resolution">
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 252, 252);</string>
+                  </property>
+                  <property name="text">
+                   <string>TextLabel</string>
+                  </property>
+                  <property name="wordWrap">
+                   <bool>true</bool>
+                  </property>
+                  <property name="textInteractionFlags">
+                   <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="6" column="1">
+                 <widget class="QLabel" name="label_file_length">
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 252, 252);</string>
+                  </property>
+                  <property name="text">
+                   <string>TextLabel</string>
+                  </property>
+                  <property name="wordWrap">
+                   <bool>true</bool>
+                  </property>
+                  <property name="textInteractionFlags">
+                   <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="1">
+                 <widget class="QLabel" name="label_codec">
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 252, 252);</string>
+                  </property>
+                  <property name="text">
+                   <string>TextLabel</string>
+                  </property>
+                  <property name="wordWrap">
+                   <bool>true</bool>
+                  </property>
+                  <property name="textInteractionFlags">
+                   <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="5" column="1">
+                 <widget class="QLabel" name="label_bitrate">
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 252, 252);</string>
+                  </property>
+                  <property name="text">
+                   <string>TextLabel</string>
+                  </property>
+                  <property name="wordWrap">
+                   <bool>true</bool>
+                  </property>
+                  <property name="textInteractionFlags">
+                   <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="6" column="0">
+                 <widget class="QLabel" name="label_32">
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 252, 252);</string>
+                  </property>
+                  <property name="text">
+                   <string>Продолжительность</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="7" column="0">
+                 <widget class="QLabel" name="label_34">
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 252, 252);</string>
+                  </property>
+                  <property name="text">
+                   <string>Аудио</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="1">
+                 <widget class="QLabel" name="label_size">
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 252, 252);</string>
+                  </property>
+                  <property name="text">
+                   <string>TextLabel</string>
+                  </property>
+                  <property name="wordWrap">
+                   <bool>true</bool>
+                  </property>
+                  <property name="textInteractionFlags">
+                   <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="0">
+                 <widget class="QLabel" name="label_28">
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 252, 252);</string>
+                  </property>
+                  <property name="text">
+                   <string>Видео кодек</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                  </property>
+                 </widget>
+                </item>
+                <item row="8" column="0">
+                 <widget class="QLabel" name="label_36">
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 252, 252);</string>
+                  </property>
+                  <property name="text">
+                   <string>Субтитры</string>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -779,6 +779,26 @@
                   </property>
                   <property name="plainText">
                    <string>Star.Trek.Deep.Space.N</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="label">
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 252, 252);</string>
+                  </property>
+                  <property name="text">
+                   <string>Путь</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QLabel" name="label_path">
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 252, 252);</string>
+                  </property>
+                  <property name="text">
+                   <string>TextLabel</string>
                   </property>
                  </widget>
                 </item>
@@ -839,6 +859,7 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionAdd_Action"/>
+   <addaction name="actionAdd_dir"/>
   </widget>
   <action name="actionAdd_Action">
    <property name="text">
@@ -853,6 +874,11 @@
   <action name="action_file_open">
    <property name="text">
     <string>Открыть базу данных</string>
+   </property>
+  </action>
+  <action name="actionAdd_dir">
+   <property name="text">
+    <string>Добавить папку</string>
    </property>
   </action>
  </widget>

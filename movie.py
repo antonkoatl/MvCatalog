@@ -28,8 +28,8 @@ class CatMovie:
                 image_binary = f.read()
                 self.poster = image_binary
             return
-        if len(item) == 11+13:
-            st = 11
+        if len(item) == 12+13:
+            st = 12
             self.id = item[st]
             self.name = item[st+1] if item[st+1] is not None else item[st+2]
             self.orig_name = item[st+2]

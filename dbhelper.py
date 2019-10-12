@@ -28,6 +28,7 @@ class DBHelper:
                                         id integer PRIMARY KEY,
                                         movie_id integer NOT NULL,
                                         name text NOT NULL,
+                                        path text,
                                         size text,
                                         resolution text,
                                         codec text,
@@ -188,6 +189,7 @@ class DBHelper:
                 c.execute("UPDATE files "
                           "SET movie_id=?,"
                           "name=?,"
+                          "path=?,"
                           "size=?,"
                           "resolution=?,"
                           "codec=?,"
@@ -207,7 +209,7 @@ class DBHelper:
             return None
         try:
             c = self.conn.cursor()
-            c.execute("INSERT OR REPLACE INTO files VALUES (?,?,?,?,?,?,?,?,?,?,?)", file.get_values_list())
+            c.execute("INSERT OR REPLACE INTO files VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", file.get_values_list())
             self.conn.commit()
             return None
         except sqlite3.Error as e:

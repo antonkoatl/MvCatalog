@@ -70,7 +70,7 @@
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap>:/newPrefix/placeholder.png</pixmap>
+        <pixmap resource="resource.qrc">:/newPrefix/placeholder.png</pixmap>
        </property>
        <property name="scaledContents">
         <bool>false</bool>
@@ -326,34 +326,31 @@
    </item>
    <item row="3" column="0">
     <layout class="QGridLayout" name="gridLayout_7">
-     <item row="0" column="2">
-      <widget class="QLineEdit" name="lineEdit_file_name">
-       <property name="text">
-        <string>test.file</string>
-       </property>
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="1">
-      <widget class="QLabel" name="label_17">
-       <property name="text">
-        <string>Битрейт</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="2">
-      <widget class="QLineEdit" name="lineEdit_resolution">
-       <property name="text">
-        <string>320x240</string>
-       </property>
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
      <item row="4" column="2">
+      <widget class="QLineEdit" name="lineEdit_codec">
+       <property name="text">
+        <string>mpg</string>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLabel" name="label_15">
+       <property name="text">
+        <string>Разрешение</string>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="2">
+      <widget class="QLineEdit" name="lineEdit_subs">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="2">
       <widget class="QLineEdit" name="lineEdit_bitrate">
        <property name="text">
         <string>1000</string>
@@ -364,9 +361,94 @@
       </widget>
      </item>
      <item row="2" column="1">
-      <widget class="QLabel" name="label_15">
+      <widget class="QLabel" name="label_14">
        <property name="text">
-        <string>Разрешение</string>
+        <string>Размер</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="2">
+      <widget class="QLineEdit" name="lineEdit_resolution">
+       <property name="text">
+        <string>320x240</string>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QLineEdit" name="lineEdit_file_name">
+       <property name="text">
+        <string>test.file</string>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="QLabel" name="label_17">
+       <property name="text">
+        <string>Битрейт</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="2">
+      <widget class="QLineEdit" name="lineEdit_file_length">
+       <property name="text">
+        <string>100</string>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="2">
+      <widget class="QLineEdit" name="lineEdit_size">
+       <property name="text">
+        <string>100</string>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="1">
+      <widget class="QLabel" name="label_19">
+       <property name="text">
+        <string>Аудио</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QLabel" name="label_16">
+       <property name="text">
+        <string>Кодек</string>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="1">
+      <widget class="QLabel" name="label_20">
+       <property name="text">
+        <string>Субтитры</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="1">
+      <widget class="QLabel" name="label_18">
+       <property name="text">
+        <string>Длительность</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="2">
+      <widget class="QLineEdit" name="lineEdit_audio">
+       <property name="text">
+        <string>Русский</string>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -378,86 +460,14 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QLabel" name="label_14">
+      <widget class="QLabel" name="label_12">
        <property name="text">
-        <string>Размер</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
-      <widget class="QLabel" name="label_16">
-       <property name="text">
-        <string>Кодек</string>
+        <string>Путь</string>
        </property>
       </widget>
      </item>
      <item row="1" column="2">
-      <widget class="QLineEdit" name="lineEdit_size">
-       <property name="text">
-        <string>100</string>
-       </property>
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="2">
-      <widget class="QLineEdit" name="lineEdit_codec">
-       <property name="text">
-        <string>mpg</string>
-       </property>
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="2">
-      <widget class="QLineEdit" name="lineEdit_file_length">
-       <property name="text">
-        <string>100</string>
-       </property>
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="1">
-      <widget class="QLabel" name="label_19">
-       <property name="text">
-        <string>Аудио</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="1">
-      <widget class="QLabel" name="label_18">
-       <property name="text">
-        <string>Длительность</string>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="2">
-      <widget class="QLineEdit" name="lineEdit_audio">
-       <property name="text">
-        <string>Русский</string>
-       </property>
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="1">
-      <widget class="QLabel" name="label_20">
-       <property name="text">
-        <string>Субтитры</string>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="2">
-      <widget class="QLineEdit" name="lineEdit_subs">
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-      </widget>
+      <widget class="QLineEdit" name="lineEdit_path"/>
      </item>
     </layout>
    </item>
@@ -479,7 +489,7 @@
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap>:/newPrefix/placeholder.png</pixmap>
+      <pixmap resource="resource.qrc">:/newPrefix/placeholder.png</pixmap>
      </property>
      <property name="scaledContents">
       <bool>false</bool>

@@ -36,8 +36,8 @@ class EditDialog(QDialog, data.design_dialog_edit.Ui_Dialog):
 
     @pyqtSlot()
     def on_click_save(self):
-        #self.movie.load_from_widget(self)
-        #self.file.load_from_widget(self)
+        self.movie.load_from_widget(self)
+        self.file.load_from_widget(self)
         self.signal_db_updater.emit(self.movie, self.file)
 
     @pyqtSlot()

@@ -15,6 +15,7 @@ class VideoHelper():
 
         self.file = CatFile()
         self.file.name = fname.split('/')[-1]
+        self.file.path = '/'.join(fname.split('/')[:-1]) + '/'
         self.file.size = probe['format']['size']
         self.file.resolution = str(video_stream['width']) + 'x' + str(video_stream['height'])
         self.file.codec = video_stream['codec_name']
