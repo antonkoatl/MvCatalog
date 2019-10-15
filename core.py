@@ -80,6 +80,8 @@ class CoreWorker(QObject):
     signal_start_parser = pyqtSignal()
     signal_parse_poster = pyqtSignal(int)
     signal_set_loading = pyqtSignal(str, bool)
+    signal_show_filesdialog = pyqtSignal()
+    signal_send_file_to_filesdialog = pyqtSignal(str)
 
     settings = QSettings("data/settings.ini", QSettings.IniFormat)
 
@@ -333,6 +335,32 @@ class CoreWorker(QObject):
             movie[12] = image
             self.signal_set_loading.emit('poster', False)
             self.signal_send_movie_to_editdialog.emit(movie)
+
+    @pyqtSlot(str)
+    def scan_dir(self, dir_):
+        from os import listdir
+        from os.path import isfile, join, normpath
+
+        video_files = [dir_ + '/' + f for f in listdir(dir_) if
+                       isfile(join(dir_, f)) and f.split('.')[-1] in ['avi', 'mkv', 'mp4']]
+
+        if len(video_files) == 0:
+            return
+
+        self.signal_show_filesdialog.emit()
+
+        accepted_files = []
+        #self.files_dialog.prepare(video_files)
+        #if self.files_dialog.exec_():
+        #    for i in range(self.files_dialog.listWidget.count()):
+        #        item = self.files_dialog.listWidget.item(i)
+        #        if item.checkState():
+        #            accepted_files.append(item.data(Qt.UserRole))
+        for f in video_files:
+            files = self.db_helper.search_file(f.split('/')[-1], '/'.join(f.split('/')[:-1]))
+
+            if len(files) == 0:
+                self.signal_send_file_to_filesdialog.emit(f)
 
     def debug(self, *args):
         if self.DEBUG:

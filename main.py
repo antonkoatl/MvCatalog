@@ -1,12 +1,13 @@
 import sys
 
 from PyQt5 import QtWidgets, QtCore
-from PyQt5.QtCore import QThread
+from PyQt5.QtCore import QThread, Qt
 from PyQt5.QtWidgets import QFileDialog, QListWidgetItem
 
 import data.design_main
 from core import *
 from edit_dialog import EditDialog
+from ui.FilesFoundDialog import FilesFoundDialog
 from file import CatFile
 from movie import CatMovie
 
@@ -17,6 +18,7 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
     signal_db_remover = pyqtSignal(CatFile)
     signal_db_new = pyqtSignal(str)
     signal_db_open = pyqtSignal(str)
+    signal_scan_files = pyqtSignal(str)
 
     settings: QSettings = QSettings("data/settings.ini", QSettings.IniFormat)
 
@@ -69,10 +71,16 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
         self.core_worker.signal_send_movie_to_editdialog.connect(self.edit_dialog.receive_movie)
         self.core_worker.signal_set_loading.connect(self.edit_dialog.set_loading)
 
+        self.files_dialog = FilesFoundDialog(self)
+        self.signal_scan_files.connect(self.core_worker.scan_dir)
+        self.core_worker.signal_send_file_to_filesdialog.connect(self.files_dialog.add_file_to_list)
+        self.core_worker.signal_show_filesdialog.connect(self.show_filesdialog)
+
         self.listWidget.itemClicked.connect(self.list_item_clicked)
         self.listWidget.clear()
 
         self.actionAdd_Action.triggered.connect(self.add_item)
+        self.actionAdd_dir.triggered.connect(self.action_add_folder)
 
         self.pushButton.clicked.connect(self.edit_item)
         self.pushButton_2.clicked.connect(self.delete_item)
@@ -173,6 +181,22 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
             pass
 
     @pyqtSlot()
+    def action_add_folder(self):
+        from os import listdir
+        from os.path import isfile, join, normpath
+
+        dir_ = QFileDialog.getExistingDirectory(None, caption = 'Select a folder:', options = QFileDialog.ShowDirsOnly)
+        #video_files = [(f, normpath(join(dir_, f))) for f in listdir(dir_) if isfile(join(dir_, f)) and f.split('.')[-1] in ['avi', 'mkv', 'mp4']]
+
+        #if len(video_files) == 0:
+        #    return
+
+        #self.files_dialog.prepare()
+        self.signal_scan_files.emit(dir_)
+        #if self.files_dialog.exec_():
+        #    pass
+
+    @pyqtSlot()
     def edit_item(self):
         if self.current_item_index == -1: return
         self.edit_dialog.prepare(self.list_data[self.current_item_index][0], self.list_data[self.current_item_index][1])
@@ -202,6 +226,12 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
     def open_db(self):
         fname, _filter = QFileDialog.getOpenFileName(self, 'Open file', filter='*.mcat')
         self.signal_db_open.emit(fname)
+
+    @pyqtSlot()
+    def show_filesdialog(self):
+        self.files_dialog.prepare()
+        if self.files_dialog.exec_():
+            pass
 
 
 if __name__ == '__main__':

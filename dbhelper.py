@@ -231,3 +231,13 @@ class DBHelper:
             return [list(x) for x in result]
         except sqlite3.Error as e:
             print(e)
+
+    def search_file(self, name, path):
+        try:
+            c = self.conn.cursor()
+            c.execute("SELECT * FROM files WHERE name=? AND path=?",
+                      [name, path])
+            result = c.fetchall()
+            return [list(x) for x in result]
+        except sqlite3.Error as e:
+            print(e)
