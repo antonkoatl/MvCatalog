@@ -8,8 +8,8 @@ from movie import CatMovie
 
 
 class EditDialog(QDialog, data.design_dialog_edit.Ui_Dialog):
-    movie: CatMovie
-    file: CatFile
+    movie: CatMovie = None
+    file: CatFile = None
 
     signal_db_updater = pyqtSignal(CatMovie, CatFile)
     signal_parse_video = pyqtSignal(str)
@@ -61,8 +61,9 @@ class EditDialog(QDialog, data.design_dialog_edit.Ui_Dialog):
 
     @pyqtSlot(CatFile)
     def receive_file(self, file: CatFile):
-        self.file.set_data(file)
-        self.file.fill_widget(self)
+        if self.file is not None:
+            self.file.set_data(file)
+            self.file.fill_widget(self)
 
     @pyqtSlot(list)
     def receive_frames(self, frames):

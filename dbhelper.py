@@ -178,7 +178,11 @@ class DBHelper:
             self.conn.commit()
             return c.fetchone()[0], None
         except sqlite3.IntegrityError as e:
-            return -1, str(e)
+            movies = self.search_movie_by_name(movie.name)
+            if len(movies) > 0:
+                return movies[0][0], None
+            else:
+                return -1, str(e)
         except sqlite3.Error as e:
             print(e)
 

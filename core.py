@@ -70,10 +70,10 @@ class CoreWorker(QObject):
     signal_add_items_to_list = pyqtSignal(list)
     signal_fill_items_to_list = pyqtSignal(list)
     signal_update_db_result = pyqtSignal(str)
-    signal_send_file_to_editdialog = pyqtSignal(CatFile)
+    signal_send_parsed_file = pyqtSignal(CatFile)
     signal_send_movie_to_editdialog = pyqtSignal(list)
-    signal_send_frames_to_editdialog = pyqtSignal(list)
-    signal_update_progress_bar = pyqtSignal(int)
+    signal_send_parsed_frames = pyqtSignal(list)
+    signal_update_frames_progress_bar = pyqtSignal(int)
     signal_send_open_db_result = pyqtSignal(int)
     signal_update_poster_label = pyqtSignal(bytes)
     signal_movie_search_result = pyqtSignal(list)
@@ -143,7 +143,7 @@ class CoreWorker(QObject):
     def parse_video_file(self, fname):
         self.breaker_parse_video = False
         video = VideoHelper(fname)
-        self.signal_send_file_to_editdialog.emit(video.file)
+        self.signal_send_parsed_file.emit(video.file)
 
         N = 20
         for i in range(N):
@@ -157,9 +157,9 @@ class CoreWorker(QObject):
 
             if frame is not None:
                 video.frames.append(frame)
-                self.signal_update_progress_bar.emit(i)
+                self.signal_update_frames_progress_bar.emit(i)
 
-        self.signal_send_frames_to_editdialog.emit(video.frames)
+        self.signal_send_parsed_frames.emit(video.frames)
         self.breaker_parse_video = True
 
     @pyqtSlot(str)
@@ -212,6 +212,8 @@ class CoreWorker(QObject):
             self.breaker_parse_video = True
             self.search_movie_name = None
             self.poster_waiting_id = None
+        if name == 'filesfound_dialog':
+            self.breaker_parse_video = True
 
     @pyqtSlot(str)
     def search_movie_name(self, name):

@@ -8,8 +8,8 @@ import data.design_main
 
 class CatMovie:
     id = None
-    name = ""
-    orig_name = ""
+    name = None
+    orig_name = None
     year = 0
     country = ""
     genre = ""
@@ -59,7 +59,7 @@ class CatMovie:
             self.poster = item[12]
 
     def get_values_list(self):
-        return [self.id, self.name, self.orig_name, self.year, self.country, self.genre, self.length, self.rating, self.director, self.script, self.actors, self.description, self.poster]
+        return [self.id, self.name, self.orig_name if self.orig_name is not None else self.name, self.year, self.country, self.genre, self.length, self.rating, self.director, self.script, self.actors, self.description, self.poster]
 
     def fill_widget(self, widget):
         if isinstance(widget, data.design_main.Ui_MainWindow):
