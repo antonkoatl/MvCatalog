@@ -68,6 +68,7 @@ class CoreWorker(QObject):
     DEBUG = False
 
     signal_add_items_to_list = pyqtSignal(list)
+    signal_add_items_to_files_tree = pyqtSignal(dict)
     signal_fill_items_to_list = pyqtSignal(list)
     signal_update_db_result = pyqtSignal(str)
     signal_send_parsed_file = pyqtSignal(CatFile)
@@ -104,17 +105,25 @@ class CoreWorker(QObject):
     @pyqtSlot(str)
     def request_list_data(self, command):
         self.debug('request_list_data', command)
+
         if command == 'start_list':
             db_data = self.db_helper.get_list_data(True)
             list_data = [[CatMovie(item), CatFile(item)] if item is not None else None for item in db_data]
             self.signal_fill_items_to_list.emit(list_data)
-            return
 
         if command == 'add_list':
             db_data = self.db_helper.get_list_data()
             list_data = [[CatMovie(item), CatFile(item)] if item is not None else None for item in db_data]
             self.signal_add_items_to_list.emit(list_data)
-            return
+
+        if command == 'start_files_tree':
+            db_data = self.db_helper.get_files_tree_data()
+            tree_data = {}
+
+            for key in db_data:
+                tree_data[key] = [[CatMovie(item), CatFile(item)] for item in db_data[key]]
+
+            self.signal_add_items_to_files_tree.emit(tree_data)
 
     @pyqtSlot(CatMovie, CatFile)
     def update_db(self, movie: CatMovie, file: CatFile):

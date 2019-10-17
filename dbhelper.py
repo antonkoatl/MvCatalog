@@ -245,3 +245,19 @@ class DBHelper:
             return [list(x) for x in result]
         except sqlite3.Error as e:
             print(e)
+
+    def get_files_tree_data(self):
+        try:
+            result = {}
+
+            c = self.conn.cursor()
+            c.execute("SELECT DISTINCT path FROM files")
+            paths = [x[0] for x in c.fetchall()]
+
+            for path in paths:
+                c.execute("SELECT * FROM files JOIN movies ON files.movie_id = movies.id WHERE path=?", [path,])
+                result[path] = c.fetchall()
+
+            return result
+        except sqlite3.Error as e:
+            print(e)

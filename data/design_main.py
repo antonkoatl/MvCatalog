@@ -49,6 +49,7 @@ class Ui_MainWindow(object):
         self.treeWidget_files = QtWidgets.QTreeWidget(self.tab_files)
         self.treeWidget_files.setObjectName("treeWidget_files")
         self.treeWidget_files.headerItem().setText(0, "1")
+        self.treeWidget_files.header().setVisible(False)
         self.verticalLayout_7.addWidget(self.treeWidget_files)
         self.tabWidget.addTab(self.tab_files, "")
         self.verticalLayout.addWidget(self.tabWidget)
@@ -403,7 +404,7 @@ class Ui_MainWindow(object):
         self.toolBar.addAction(self.actionAdd_dir)
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):

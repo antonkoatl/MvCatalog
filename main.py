@@ -2,7 +2,7 @@ import sys
 
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtCore import QThread, Qt
-from PyQt5.QtWidgets import QFileDialog, QListWidgetItem
+from PyQt5.QtWidgets import QFileDialog, QListWidgetItem, QTreeWidgetItem
 
 import data.design_main
 from core import *
@@ -46,6 +46,7 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
 
         self.core_worker.signal_fill_items_to_list.connect(self.fill_records_list)
         self.core_worker.signal_add_items_to_list.connect(self.add_records_list)
+        self.core_worker.signal_add_items_to_files_tree.connect(self.fill_files_tree)
         self.signal_db_updater.connect(self.core_worker.update_db)
         self.signal_db_remover.connect(self.core_worker.removefrom_db)
         self.signal_db_request.connect(self.core_worker.request_list_data)
@@ -98,6 +99,9 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
         self.action_file_new.triggered.connect(self.new_db)
         self.action_file_open.triggered.connect(self.open_db)
 
+        self.tabWidget.currentChanged.connect(self.tab_selected)
+        self.treeWidget_files.itemClicked.connect(self.files_tree_item_clicked)
+
         self.show()
         self.signal_db_open.emit(None)
 
@@ -144,6 +148,22 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
         if (self.list_continues):
             self.listWidget_movies.addItem("More...", )
 
+    @pyqtSlot(dict)
+    def fill_files_tree(self, data):
+        self.treeWidget_files.clear()
+
+        for key, items in data.items():
+            root = QTreeWidgetItem(self.treeWidget_files, [key,])
+
+            for item in items:
+                tree_item = QTreeWidgetItem([item[0].name,])
+                tree_item.setData(0, Qt.UserRole, item)
+                root.addChild(tree_item)
+
+
+            root.setExpanded(True)
+            root.setFlags(root.flags() & ~Qt.ItemIsSelectable)
+
     @pyqtSlot(int)
     def open_db_listener(self, int):
         if int == 0:
@@ -178,6 +198,14 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
 
         movie.fill_widget(self)
         file.fill_widget(self)
+
+    @pyqtSlot(QTreeWidgetItem)
+    def files_tree_item_clicked(self, item: QTreeWidgetItem):
+        movie, file = item.data(0, Qt.UserRole)
+        self.scrollArea.show()
+        movie.fill_widget(self)
+        file.fill_widget(self)
+
 
     @pyqtSlot()
     def add_item(self):
@@ -238,6 +266,14 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
         self.files_dialog.prepare()
         if self.files_dialog.exec_():
             pass
+
+    @pyqtSlot(int)
+    def tab_selected(self, index):
+        if index == 0:
+            self.signal_db_request.emit("start_list")
+
+        if index == 1:
+            self.signal_db_request.emit("start_files_tree")
 
 
 if __name__ == '__main__':
