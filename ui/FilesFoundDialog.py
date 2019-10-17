@@ -49,13 +49,17 @@ class FilesFoundDialog(QDialog, data.design_dialog_found_files.Ui_Dialog):
             lw_item.setIcon(QApplication.style().standardIcon(QStyle.SP_MediaPlay))
             lw_item.setFlags(lw_item.flags() & Qt.ItemIsSelectable)
             file_name = lw_item.data(Qt.UserRole)
+
             self.current_item = i
+            self.file = CatFile()
+
             self.signal_parse_file.emit(file_name)
             break
 
     @pyqtSlot(CatFile)
     def receive_parsed_file(self, file: CatFile):
-        self.file = file
+        if self.file is not None:
+            self.file.set_data(file)
 
     @pyqtSlot(list)
     def receive_parsed_frames(self, frames):
