@@ -82,8 +82,8 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
         self.core_worker.signal_send_parsed_frames.connect(self.files_dialog.receive_parsed_frames)
         self.core_worker.signal_update_frames_progress_bar.connect(self.files_dialog.progressBar.setValue)
 
-        self.listWidget.itemClicked.connect(self.list_item_clicked)
-        self.listWidget.clear()
+        self.listWidget_movies.itemClicked.connect(self.list_item_clicked)
+        self.listWidget_movies.clear()
 
         self.actionAdd_Action.triggered.connect(self.add_item)
         self.actionAdd_dir.triggered.connect(self.action_add_folder)
@@ -110,7 +110,7 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
 
     @pyqtSlot(list)
     def fill_records_list(self, data):
-        self.listWidget.clear()
+        self.listWidget_movies.clear()
 
         self.list_data = data[:-1]
         self.list_continues = data[-1] != None
@@ -118,31 +118,31 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
         movie: CatMovie
         file: CatFile
         for movie, file in data[:-1]:
-            self.listWidget.addItem(movie.name, )
+            self.listWidget_movies.addItem(movie.name, )
 
         if (self.list_continues):
             self.listWidget.addItem("More...", )
 
         if self.current_item_index != -1:
-            self.listWidget.setCurrentRow(self.current_item_index)
-            self.list_item_clicked(self.listWidget.item(self.current_item_index))
+            self.listWidget_movies.setCurrentRow(self.current_item_index)
+            self.list_item_clicked(self.listWidget_movies.item(self.current_item_index))
 
 
     @pyqtSlot(list)
     def add_records_list(self, data):
-        if self.listWidget.count() > 0 and self.listWidget.item(self.listWidget.count() - 1).text() == "Loading...":
-            self.listWidget.takeItem(self.listWidget.count() - 1)
-            self.listWidget.setCurrentRow(-1)
+        if self.listWidget_movies.count() > 0 and self.listWidget_movies.item(self.listWidget_movies.count() - 1).text() == "Loading...":
+            self.listWidget_movies.takeItem(self.listWidget_movies.count() - 1)
+            self.listWidget_movies.setCurrentRow(-1)
 
         self.list_data += data[:-1]
         self.list_continues = data[-1] != None
 
         for item in data[:-1]:
             if item == None: break
-            self.listWidget.addItem(item[0].name, )
+            self.listWidget_movies.addItem(item[0].name, )
 
         if (self.list_continues):
-            self.listWidget.addItem("More...", )
+            self.listWidget_movies.addItem("More...", )
 
     @pyqtSlot(int)
     def open_db_listener(self, int):
@@ -158,7 +158,7 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
             self.scrollArea.hide()
             return
 
-        index = self.listWidget.currentRow()
+        index = self.listWidget_movies.currentRow()
 
         if item.text() == "More...":
             item.setText("Loading...")
@@ -213,8 +213,8 @@ class MyWindow(QtWidgets.QMainWindow, data.design_main.Ui_MainWindow):
     def delete_item(self):
         if self.current_item_index == -1: return
         self.signal_db_remover.emit(self.list_data.pop(self.current_item_index)[1])
-        self.listWidget.takeItem(self.current_item_index)
-        self.listWidget.setCurrentRow(-1)
+        self.listWidget_movies.takeItem(self.current_item_index)
+        self.listWidget_movies.setCurrentRow(-1)
         self.current_item_index = -1
         self.list_item_clicked(None)
 

@@ -20,22 +20,58 @@
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
-      <widget class="QListWidget" name="listWidget">
-       <item>
-        <property name="text">
-         <string>test1</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>test2</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>test3</string>
-        </property>
-       </item>
+      <widget class="QWidget" name="verticalLayoutWidget">
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QTabWidget" name="tabWidget">
+          <property name="currentIndex">
+           <number>1</number>
+          </property>
+          <widget class="QWidget" name="tab_movies">
+           <attribute name="title">
+            <string>Movies</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_6">
+            <item>
+             <widget class="QListWidget" name="listWidget_movies">
+              <item>
+               <property name="text">
+                <string>test1</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>test2</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>test3</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tab_files">
+           <attribute name="title">
+            <string>Files</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_7">
+            <item>
+             <widget class="QTreeWidget" name="treeWidget_files">
+              <column>
+               <property name="text">
+                <string notr="true">1</string>
+               </property>
+              </column>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </item>
+       </layout>
       </widget>
       <widget class="QWidget" name="verticalWidget" native="true">
        <property name="sizePolicy">
@@ -66,8 +102,8 @@
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-73</y>
-             <width>653</width>
+             <y>0</y>
+             <width>749</width>
              <height>848</height>
             </rect>
            </property>
